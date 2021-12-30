@@ -1,7 +1,8 @@
 """
-Extracts the relative Power Spectral Density (PSD) at the Alpha and Theta bands using the Welch's method.
-This process is conducted in 4 electrode sites: F3, F4, P3 and P4.
-Then, Frontal Asymmetry and Parietal Power are calculated.
+This script uses data that was recorded and preprocessed by the authors of the
+DEAP dataset (https://www.eecs.qmul.ac.uk/mmv/datasets/deap/), using a method that is suitable for offline analysis.
+
+This script extracts frontal asymmetry and parietal power in the alpha and theta bands.
 """
 
 import os, sys
@@ -14,7 +15,7 @@ from helper import relative_psd
 sys.path.append('../')
 d = os.path.dirname(os.getcwd())
 
-def extract_features_deap_offline():
+def features_deap_offline():
     # Run once on each power band (alpha and theta)
     band_collection = []
     for band in bands:
@@ -24,7 +25,7 @@ def extract_features_deap_offline():
         for p in deap_participants:
             # Read participant data
             print("reading participant %s..." % (p))
-            x = pickle.load(open(d + '/data/deap_offline/objective/s%s.dat' % (p), 'rb'), encoding='iso-8859-1')
+            x = pickle.load(open(d + '/data/deap/objective_measures_preprocessed_offline/s%s.dat' % (p), 'rb'), encoding='iso-8859-1')
             data = x['data']
             # Run once on each video
             band_psd_collection = []
@@ -72,8 +73,8 @@ def extract_features_deap_offline():
     features['parietal_mean'] = (power['P3'] + power['P4']) / 2
 
     # Export features to CSV file
-    features.to_csv((d + '/data/deap_offline/deap_offline_features.csv'), index=False)
+    features.to_csv((d + '/features/deap_offline_features.csv'), index=False)
 
 
 if __name__ == "__main__":
-    extract_features_deap_offline()
+    features_deap_offline()

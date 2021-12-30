@@ -3,7 +3,7 @@ for s = 1:32
     file = sprintf("s%d", s); 
     
     % Define file path with raw data
-    raw_file_path = sprintf(strcat(pwd, '/affect_detection/data/deap_online/objective/raw/%s.bdf'), file);
+    raw_file_path = sprintf(strcat(pwd, '/affect_detection/data/deap/objective_measures_preprocessed_online/raw/%s.bdf'), file);
     
     % Read data
     EEG = pop_biosig(raw_file_path, 'channels',[1:32 48] ,'ref',32);
@@ -58,7 +58,7 @@ for s = 1:32
     EEG = eeg_checkset( EEG );
     
     % Define export file path
-    export_file_path = sprintf(strcat(pwd, '/affect_detection/data/deap_online/objective/preprocessed/%s.csv'), file);
+    export_file_path = sprintf(strcat(pwd, '/affect_detection/data/deap/objective_measures_preprocessed_online/preprocessed/%s.csv'), file);
     
     % Export preprocessed data
     pop_export(EEG,export_file_path,'transpose','on','separator',',','precision',16);

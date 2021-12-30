@@ -1,6 +1,8 @@
 """
-Extracts the relative Power Spectral Density (PSD) of the each band using a rolling window (size: 10s).
-This process is performed in 6 electrode sites: F3, F4, F7, F8, T7, T8, P3 and P4.
+This script uses data that was recorded by the authors of the DEAP dataset (https://www.eecs.qmul.ac.uk/mmv/datasets/deap/)
+The data was preprocessed by the author of this script using a method that is suitable for online analysis.
+
+This script extracts frontal asymmetry and parietal power in the alpha and theta bands.
 """
 
 import os, sys
@@ -13,7 +15,7 @@ from helper import relative_psd
 # Define working directory
 d = os.path.dirname(os.getcwd())
 
-def extract_features_deap_online():
+def features_deap_online():
     # Run once on each power band
     band_collection = []
     for band in bands:
@@ -24,9 +26,9 @@ def extract_features_deap_online():
             # Read participant data
             print("reading participant %s..." % (p))
             # File name
-            file = (d + '/data/deap_online/objective/preprocessed/s%s.csv' % (p))
+            file = (d + '/data/deap/objective_measures_preprocessed_online/preprocessed/s%s.csv' % (p))
             # Read ratings file
-            ratings = pd.read_excel(d + '/data/deap_online/subjective/participant_ratings.xls')
+            ratings = pd.read_excel(d + '/data/deap/subjective_measures/participant_ratings.xls')
             # Extract trial numbers
             trials = ratings[ratings['Participant_id'] == p]
             trials = trials[['Trial', 'Experiment_id']]
@@ -85,8 +87,8 @@ def extract_features_deap_online():
     features['parietal_mean'] = (power['P3'] + power['P4']) / 2
 
     # Export power and features to separate CSV files
-    features.to_csv((d + '/data/deap_online/deap_online_features.csv'), index=False)
+    features.to_csv((d + '/features/deap_online_features.csv'), index=False)
 
 
 if __name__ == "__main__":
-    extract_features_deap_online()
+    features_deap_online()
