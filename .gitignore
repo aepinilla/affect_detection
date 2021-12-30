@@ -1,0 +1,8 @@
+/data
+/archive
+/stats
+.idea
+.DS_Store
+structure.xlsx
+__pycache__/
+ *.pyc
