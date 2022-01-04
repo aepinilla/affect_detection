@@ -41,6 +41,12 @@ channels_idx = {
     'O2': 32
 }
 
+# Define DEAP channel indexes
+labels_idx = {
+    'valence': 0,
+    'arousal': 1
+}
+
 # Define sampling frequency
 fs = 128
 
@@ -53,7 +59,10 @@ welch_window_size = (number_cycles / lowest_frequency) * fs
 bands = ['alpha', 'theta']
 
 # Define list of videos
-deap_videos = list(range(0, 40))
+# Videos preprocessed using the offline approach are 0-indexed
+deap_videos_offline = list(range(0, 40))
+# Videos preprocessed using the online approach are 1-indexed
+deap_videos_online = list(range(1, 41))
 
 # Define list of participants
 deap_participants = list(range(1,33))
