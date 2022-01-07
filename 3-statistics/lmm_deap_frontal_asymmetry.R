@@ -2,7 +2,7 @@ library(lme4)
 library(tidyverse)
 
 # Define power bands
-bands <- list('alpha', 'theta')
+bands <- list('delta', 'theta', 'alpha', 'beta', 'gamma')
 
 # DEAP dataset preprocessed using offline approach
 deap_offline <- read.csv("../features/deap_offline_features.csv")

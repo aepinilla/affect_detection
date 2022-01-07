@@ -9,8 +9,8 @@ import os, sys
 sys.path.append('../')
 
 import pandas as pd
-from settings import fs, welch_window_size, bands, exp_videos, electrode_sites, exp_participant_codes
-from helper import relative_psd
+from settings import fs, welch_window_size, bands, exp_videos, electrode_sites, exp_participant_codes, exp_video_ids_dict
+from helper import relative_psd, add_exp_subjective_measures
 from get_exp_self_reports import get_exp_self_reports
 
 # Define working directory
@@ -76,17 +76,23 @@ def features_pilot_exp():
         band_collection.append(all_participants)
     # Concatenate bands
     power = pd.concat(band_collection)
-
+    # Add subjective measures
+    power_subjective = add_exp_subjective_measures(power)
     # Extract features
-    features = pd.DataFrame()
-    features['participant'] = power['participant']
-    features['video_id'] = power['video_id']
-    features['band'] = power['band']
-    features['frontal_asymmetry'] = power['F3'] - power['F4']
-    features['parietal_mean'] = (power['P3'] + power['P4']) / 2
-
+    features_dict = {'participant': power_subjective['participant'],
+                     'video_id': power_subjective['video_id'],
+                     'band': power_subjective['band'],
+                     'frontal_asymmetry': power_subjective['F3'] - power_subjective['F4'],
+                     'parietal_mean': (power_subjective['P3'] + power_subjective['P4']) / 2,
+                     'negativity_rating': power_subjective['negativity_rating'],
+                     'positivity_rating': power_subjective['positivity_rating'],
+                     'net_predisposition_rating': power_subjective['net_predisposition_rating'],
+                     'negativity_type': power_subjective['negativity_type'],
+                     'positivity_type': power_subjective['positivity_type'],
+                     'net_predisposition_type': power_subjective['net_predisposition_type']}
+    features_df = pd.DataFrame(features_dict)
     # Export power and features to separate CSV files
-    features.to_csv((d + '/features/pilot_exp_features.csv'), index=False)
+    features_df.to_csv((d + '/features/pilot_exp_features.csv'), index=False)
 
 
 if __name__ == "__main__":

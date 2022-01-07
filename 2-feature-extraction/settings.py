@@ -56,7 +56,7 @@ lowest_frequency = 4
 welch_window_size = (number_cycles / lowest_frequency) * fs
 
 # Define bands
-bands = ['alpha', 'theta']
+bands = ['delta', 'theta', 'alpha', 'beta', 'gamma']
 
 # Define list of videos
 # Videos preprocessed using the offline approach are 0-indexed
@@ -76,26 +76,26 @@ exp_videos = list(range(1, 19))
 exp_participant_codes = ['3I6EY',
                          '6HARB',
                          'AY9SI',
-                         'DODE8',
+                         'DODE8', #Outlier
                          'GLJO8',
-                         'GNIE1',
-                         # 'J7BUL', Corrupted data
-                         # 'JB584', Corrupted data
+                         'GNIE1', #Outlier
+                         #'J7BUL',#Corrupted data
+                         #'JB584',#Corrupted data
                          'KNY2Z',
                          'MJC27',
                          'MRB58',
                          'NJL7V',
-                         'PJGHY',
+                         'PJGHY', #Outlier
                          'QPLQF',
-                         'RSC25',
+                         'RSC25', #Outlier
                          'SDE14',
                          'SWLFB',
-                         'SXZNO',
+                         'SXZNO', #Outlier
                          'TXNOY',
                          'UVBY3',
                          'VHY9N',
-                         # 'Y8ZJQ', Corrupted data
-                         # 'YOO7M' Outlier
+                         # 'Y8ZJQ', #Corrupted data
+                         'YOO7M'
                          ]
 
 # Define video codes
@@ -117,3 +117,6 @@ exp_video_ids_dict = {
     'stims/taylor_swift__love_story.mov': 'tsl',
     'stims/the_submarines__darkest_things.mov': 'tsd'
 }
+
+# Define exp dimensions
+exp_dimensions = ['negativity', 'positivity', 'net_predisposition']

@@ -4,6 +4,7 @@ import numpy as np
 import seaborn as sns; sns.set()
 from scipy import signal
 from scipy.integrate import simps
+from settings import exp_participant_codes, exp_video_ids_dict
 
 
 # Define working directory
@@ -77,3 +78,58 @@ def add_deap_subjective_measures(power, preprocessing_pipeline):
     power_ratings_quadrants = power.merge(ratings_quadrants, on=['participant', 'video_id'])
 
     return power_ratings_quadrants
+
+# Self-reports
+def add_exp_subjective_measures(power):
+    self_reports_collection = []
+    for p in exp_participant_codes:
+        # Read data
+        filename = d + '/data/pilot_exp/subjective/self_reports/%s_self_report.csv' % (p)
+        psychopy_data = pd.read_csv(filename)
+        self_reports = psychopy_data[
+            ['videoFile', 'likertNegativity.response', 'likertPositivity.response', 'likertArousal.response']]
+        self_reports = self_reports.dropna().reset_index(drop=True)
+        # Add participant code
+        self_reports['participant_code'] = p
+        # Create empty column for video codes
+        self_reports['video_id'] = 'NaN'
+        # Assign video codes
+        for key, value in exp_video_ids_dict.items():
+            self_reports.loc[self_reports['videoFile'] == key, 'video_id'] = value
+        # Rename columns
+        self_reports.columns = ['video_file', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating',
+                                'participant', 'video_id']
+        # Add self-report to list
+        self_reports_collection.append(self_reports)
+    # Concatenate all self-reports
+    all_self_reports = pd.concat(self_reports_collection)
+    all_self_reports = all_self_reports[
+        ['participant', 'video_id', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating']]
+    # Add quadrants
+    quadrants = all_self_reports.loc[:,
+                ['video_id', 'participant', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating']]
+    # quadrants = quadrants.groupby(['video_id']).mean().reset_index()
+    quadrants.loc[quadrants['negativity_rating'] < 5, 'negativity_type'] = 'LN'
+    quadrants.loc[quadrants['negativity_rating'] > 5, 'negativity_type'] = 'HN'
+    quadrants.loc[quadrants['positivity_rating'] < 5, 'positivity_type'] = 'LP'
+    quadrants.loc[quadrants['positivity_rating'] > 5, 'positivity_type'] = 'HP'
+    quadrants.loc[quadrants['net_predisposition_rating'] < 5, 'net_predisposition_type'] = 'LNP'
+    quadrants.loc[quadrants['net_predisposition_rating'] > 5, 'net_predisposition_type'] = 'HNP'
+    quadrants = quadrants.drop(columns=['negativity_rating', 'positivity_rating', 'net_predisposition_rating'])
+    # Add quadrants to subjective ratings
+    subjective_quadrants = pd.merge(all_self_reports, quadrants, on=['participant', 'video_id'])
+    # Merge self-reports with PSD data
+    power_subjective = power.merge(subjective_quadrants, on=['participant', 'video_id'])
+
+    return power_subjective
+
+# create function to calculate Mahalanobis distance
+def mahalanobis(x=None, data=None, cov=None):
+
+    x_mu = x - np.mean(data)
+    if not cov:
+        cov = np.cov(data.values.T)
+    inv_covmat = np.linalg.inv(cov)
+    left = np.dot(x_mu, inv_covmat)
+    mahal = np.dot(left, x_mu.T)
+    return mahal.diagonal()
