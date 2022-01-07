@@ -1,6 +1,7 @@
 /data
 /archive
 /stats
+/features
 .idea
 .DS_Store
 structure.xlsx

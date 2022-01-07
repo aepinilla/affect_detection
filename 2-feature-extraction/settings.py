@@ -5,6 +5,20 @@ Defines variables and constants that are used in other scripts.
 import os
 d = os.path.dirname(os.getcwd())
 
+# Define sampling frequency
+fs = 128
+
+# Define window size for Welch's method
+number_cycles = 32
+lowest_frequency = 4
+welch_window_size = (number_cycles / lowest_frequency) * fs
+
+# Define window size for moving window
+moving_window_size = int((number_cycles / lowest_frequency) * fs)
+
+# Define bands
+bands = ['delta', 'theta', 'alpha', 'beta', 'gamma']
+
 # Define DEAP channel indexes
 channels_idx = {
     'Fp1': 1,
@@ -47,20 +61,10 @@ labels_idx = {
     'arousal': 1
 }
 
-# Define sampling frequency
-fs = 128
-
-# Define window size for Welch's method
-number_cycles = 32
-lowest_frequency = 4
-welch_window_size = (number_cycles / lowest_frequency) * fs
-
-# Define bands
-bands = ['delta', 'theta', 'alpha', 'beta', 'gamma']
-
 # Define list of videos
 # Videos preprocessed using the offline approach are 0-indexed
 deap_videos_offline = list(range(0, 40))
+
 # Videos preprocessed using the online approach are 1-indexed
 deap_videos_online = list(range(1, 41))
 
