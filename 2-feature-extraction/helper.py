@@ -5,6 +5,7 @@ import seaborn as sns; sns.set()
 from scipy import signal
 from scipy.integrate import simps
 from settings import exp_participant_codes, exp_video_ids_dict
+import itertools
 
 
 # Define working directory
@@ -85,11 +86,14 @@ def relative_psd_ts(x, fs, window, band):
     total_psd = np.asarray(total_power_collection)
     # # Calculate relative alpha power
     relative_band_psd_ts = 100 * (band_psd / total_psd)
+    # Take the average PSD of each second
+    scale_factor = 95
+    mean_per_second = [sum(relative_band_psd_ts[i:i + scale_factor]) / scale_factor for i in range(0, len(relative_band_psd_ts), scale_factor)]
 
-    return relative_band_psd_ts
+    return mean_per_second
 
 
-def add_deap_subjective_measures(power, preprocessing_pipeline):
+def add_deap_subjective_measures(power):
     # Read Excel file with video types
     vl = pd.read_excel(d + '/data/deap/subjective_measures/video_list.xls')
     # Define quadrants
@@ -113,10 +117,8 @@ def add_deap_subjective_measures(power, preprocessing_pipeline):
     ratings.columns = ['participant', 'video_id', 'valence_rating', 'arousal_rating']
     # Add quadrants
     ratings_quadrants = pd.merge(ratings, quadrants, on=['video_id'])
-    # In the data that was preprocessed by the authors of the DEAP dataset increase all values of video id by 1.
-    # This is necessary because in the .dat files videos are 0-indexed, while the Excel file with the quadrant types, videos are 1-indexed
-    if preprocessing_pipeline == 'offline':
-        power['video_id'] = power['video_id'] + 1
+    # In the Python scripts, videos are 0-indexed, while the Excel file with the quadrant types, videos are 1-indexed
+    power['video_id'] = power['video_id'] + 1
     # Add quadrants
     power_ratings_quadrants = power.merge(ratings_quadrants, on=['participant', 'video_id'])
 

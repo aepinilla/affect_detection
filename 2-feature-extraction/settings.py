@@ -14,10 +14,7 @@ lowest_frequency = 4
 welch_window_size = (number_cycles / lowest_frequency) * fs
 
 # Define window size for moving window
-moving_window_size = int((number_cycles / lowest_frequency) * fs)
-
-# Define bands
-bands = ['delta', 'theta', 'alpha', 'beta', 'gamma']
+moving_window_size = int((number_cycles / lowest_frequency) * fs * 2)
 
 # Define DEAP channel indexes
 channels_idx = {
@@ -61,15 +58,18 @@ labels_idx = {
     'arousal': 1
 }
 
+# Define bands
+bands = ['delta', 'theta', 'alpha', 'beta', 'gamma']
+#bands = ['gamma']
+
 # Define list of videos
 # Videos preprocessed using the offline approach are 0-indexed
-deap_videos_offline = list(range(0, 40))
-
-# Videos preprocessed using the online approach are 1-indexed
-deap_videos_online = list(range(1, 41))
+deap_videos = list(range(0, 40))
+#deap_videos = list(range(0, 2))
 
 # Define list of participants
 deap_participants = list(range(1,33))
+#deap_participants = list(range(1,2))
 
 # Define names of EEG electrode sites
 electrode_sites = ['F3', 'F4', 'P3', 'P4']

@@ -1,0 +1,97 @@
+$delta_arousal
+Data: band_data
+Models:
+arousal.null: frontal_asymmetry ~ valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+arousal.model: frontal_asymmetry ~ arousal_rating + valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+              npar    AIC    BIC logLik deviance  Chisq Df Pr(>Chisq)
+arousal.null    12 102207 102319 -51092   102183                     
+arousal.model   13 102208 102328 -51091   102182 1.6194  1     0.2032
+
+$theta_arousal
+Data: band_data
+Models:
+arousal.null: frontal_asymmetry ~ valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+arousal.model: frontal_asymmetry ~ arousal_rating + valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+              npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)
+arousal.null    12 560844 560955 -280410   560820                     
+arousal.model   13 560844 560964 -280409   560818 2.2028  1     0.1378
+
+$alpha_arousal
+Data: band_data
+Models:
+arousal.null: frontal_asymmetry ~ valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+arousal.model: frontal_asymmetry ~ arousal_rating + valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+              npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)
+arousal.null    12 451591 451702 -225783   451567                     
+arousal.model   13 451592 451713 -225783   451566 0.5383  1     0.4631
+
+$beta_arousal
+Data: band_data
+Models:
+arousal.null: frontal_asymmetry ~ valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+arousal.model: frontal_asymmetry ~ arousal_rating + valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+              npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)
+arousal.null    12 466315 466426 -233145   466291                     
+arousal.model   13 466316 466436 -233145   466290 0.9121  1     0.3396
+
+$gamma_arousal
+Data: band_data
+Models:
+arousal.null: frontal_asymmetry ~ valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+arousal.model: frontal_asymmetry ~ arousal_rating + valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+              npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)  
+arousal.null    12 458433 458544 -229204   458409                       
+arousal.model   13 458432 458552 -229203   458406 2.9865  1    0.08396 .
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+
+
+
+$delta_arousal
+Data: band_data
+Models:
+arousal.null: parietal_mean ~ valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+arousal.model: parietal_mean ~ arousal_rating + valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+              npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)  
+arousal.null    12 93032 93143 -46504    93008                       
+arousal.model   13 93031 93152 -46503    93005 2.8436  1    0.09174 .
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+$theta_arousal
+Data: band_data
+Models:
+arousal.null: parietal_mean ~ valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+arousal.model: parietal_mean ~ arousal_rating + valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+              npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)
+arousal.null    12 599566 599677 -299771   599542                     
+arousal.model   13 599568 599688 -299771   599542 0.5221  1       0.47
+
+$alpha_arousal
+Data: band_data
+Models:
+arousal.null: parietal_mean ~ valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+arousal.model: parietal_mean ~ arousal_rating + valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+              npar    AIC    BIC  logLik deviance Chisq Df Pr(>Chisq)
+arousal.null    12 472622 472733 -236299   472598                    
+arousal.model   13 472626 472746 -236300   472600     0  1          1
+
+$beta_arousal
+Data: band_data
+Models:
+arousal.null: parietal_mean ~ valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+arousal.model: parietal_mean ~ arousal_rating + valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+              npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)
+arousal.null    12 491122 491233 -245549   491098                     
+arousal.model   13 491124 491244 -245549   491098 0.3976  1     0.5284
+
+$gamma_arousal
+Data: band_data
+Models:
+arousal.null: parietal_mean ~ valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+arousal.model: parietal_mean ~ arousal_rating + valence_rating + (1 + arousal_rating | participant) + (1 + arousal_rating | video_id) + (1 + arousal_rating | second)
+              npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)
+arousal.null    12 486161 486273 -243069   486137                     
+arousal.model   13 486163 486283 -243068   486137 0.5287  1     0.4671
