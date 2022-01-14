@@ -1,7 +1,7 @@
 library(lme4)
 library(tidyverse)
 
-setwd("~/Documents/MATLAB/affect_detection/features/pilot_exp")
+setwd("~/Documents/MATLAB/affect_detection/features")
 
 # Create list of files
 files_list <- list.files()
@@ -67,5 +67,5 @@ for (d in dimensions) {
   }
 }
 
-capture.output(all_results, file = "~/Documents/MATLAB/affect_detection/3-statistics/pilot_exp/results.txt")
+capture.output(all_results, file = "~/Documents/MATLAB/affect_detection/results/lmm_results.txt")
 print(all_results)

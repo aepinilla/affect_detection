@@ -1,60 +1,57 @@
 """
-This script uses data that was recorded by the authors of the DEAP dataset (https://www.eecs.qmul.ac.uk/mmv/datasets/deap/)
-The data was preprocessed by the author of this script using a method that is suitable for online analysis.
+This script uses data that was recorded and preprocessed by the author of this script,
+using a method that is suitable for online analysis.
 
 This script extracts frontal asymmetry and parietal power in the alpha and theta bands.
 """
 
 import os, sys
-import pandas as pd
-pd.options.mode.chained_assignment = None
-import pickle
-from settings import channels_idx, labels_idx, fs, welch_window_size, bands, deap_videos, deap_participants, electrode_sites, moving_window_size
-from helper import relative_psd_ts, add_deap_subjective_measures, moving_window
-
-# Define working directory
 sys.path.append('../')
+
+import pandas as pd
+from settings import fs, welch_window_size, bands, exp_videos, electrode_sites, exp_participant_codes, exp_video_ids_dict, moving_window_size
+from helper import relative_psd_ts, add_exp_subjective_measures, get_exp_self_reports, moving_window
+# Define working directory
 d = os.path.dirname(os.getcwd())
 
 
-def features_deap_online():
-    for p in deap_participants:
+def features_pilot_exp():
+    for p in exp_participant_codes:
         # Read participant data
         print("Reading participant %s..." % (p))
-        # File name
-        file = (d + '/data/deap/objective_measures_preprocessed_online/preprocessed/s%s.csv' % (p))
-        # Read ratings file
-        ratings = pd.read_excel(d + '/data/deap/subjective_measures/participant_ratings.xls')
-        # All data
+        # EEG file name
+        file = (d + '/affect_detection/data/objective/preprocessed/eeg/%s_eeg.csv' % (p))
+        # Read EEG preprocessed data
         eeg_data = pd.read_csv(file)
-
+        # Read self-reports
+        all_self_reports = get_exp_self_reports()
+        # Find trials
+        trials = all_self_reports[all_self_reports['participant'] == p]
+        trials = trials[['video_id', 'trial']]
         # Find start indices
         start = eeg_data['Time'] == 0
         start_idx = start[start]
-
         # The length of the data of each video is 60 seconds times the sampling frequency (fs)
         len_video = (60 * fs) - 1
-
-        # Run once on each power band
+        # Run once on each band
         band_collection = []
         for band in bands:
             print('Processing %s band' % (band))
-            # Run once on each participant
             # Run once on each video
             psd_collection = []
-            for v in deap_videos:
-                print("Processing video %s..." % (v))
+            for v in exp_videos:
+                print("processing video %s..." % (v))
                 # Video data
                 eeg_data_video = eeg_data.iloc[start_idx.index[v]:start_idx.index[v]+len_video,:]
                 # Video dict
                 video_dict = {channel: eeg_data_video[channel] for channel in electrode_sites}
                 # Extract the relative Power Spectral Density (PSD)
-                # A comprehension dictionary is used to perform this process on each electrode site#
+                # A comprehension dictionary is used to perform this process on each electrode site
                 psd_rolling = {channel: relative_psd_ts(moving_window(video_dict[channel].values, moving_window_size), fs, welch_window_size, band=band) for channel in electrode_sites}
                 # Transform resulting dictionary into a pandas dataframe
                 psd_rolling_df = pd.DataFrame(psd_rolling)
                 # Assign video number
-                psd_rolling_df['video_id'] = v
+                psd_rolling_df['trial'] = v
                 # Numerate time series
                 psd_rolling_df['second'] = list(range(len(psd_rolling_df)))
                 # Append result to list
@@ -69,8 +66,10 @@ def features_deap_online():
         bands_df = pd.concat(band_collection)
         # Add participant's number
         bands_df['participant'] = p
-        # Add subjective measures
-        bands_df_subjective = add_deap_subjective_measures(bands_df)
+        # Write video ids
+        bands_df_ids = pd.merge(bands_df, trials, on='trial')
+        # Add self-reports
+        bands_df_subjective = add_exp_subjective_measures(bands_df_ids)
         # Extract features
         features_dict = {'participant': bands_df_subjective['participant'],
                          'video_id': bands_df_subjective['video_id'],
@@ -78,14 +77,16 @@ def features_deap_online():
                          'band': bands_df_subjective['band'],
                          'frontal_asymmetry': bands_df_subjective['F3'] - bands_df_subjective['F4'],
                          'parietal_mean': (bands_df_subjective['P3'] + bands_df_subjective['P4']) / 2,
-                         'valence_rating': bands_df_subjective['valence_rating'],
-                         'arousal_rating': bands_df_subjective['arousal_rating'],
-                         'valence_type': bands_df_subjective['valence_type'],
-                         'arousal_type': bands_df_subjective['arousal_type']}
+                         'negativity_rating': bands_df_subjective['negativity_rating'],
+                         'positivity_rating': bands_df_subjective['positivity_rating'],
+                         'net_predisposition_rating': bands_df_subjective['net_predisposition_rating'],
+                         'negativity_type': bands_df_subjective['negativity_type'],
+                         'positivity_type': bands_df_subjective['positivity_type'],
+                         'net_predisposition_type': bands_df_subjective['net_predisposition_type']}
         features_df = pd.DataFrame(features_dict)
         # Export features to CSV file
-        features_df.to_csv((d + '/features/deap_online/s%s_features.csv' % (p)), index=False)
+        features_df.to_csv((d + '/affect_detection/features/s%s_features.csv' % (p)), index=False)
 
 
 if __name__ == "__main__":
-    features_deap_online()
+    features_pilot_exp()

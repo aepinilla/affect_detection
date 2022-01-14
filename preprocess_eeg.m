@@ -5,7 +5,7 @@ for p = participants
     file = sprintf("%s_eeg", p);
     
     % Define file path with raw data
-    raw_file_path = sprintf(strcat(pwd, '/affect_detection/data/pilot_exp/objective/csv/eeg/%s.csv'), file);
+    raw_file_path = sprintf(strcat(pwd, '/affect_detection/data/objective/csv/eeg/%s.csv'), file);
     
     % Read data
     data = csvread(raw_file_path, 1 ,1);
@@ -65,7 +65,7 @@ for p = participants
     EEG = eeg_checkset( EEG );
     
     % Define export file path
-    export_file_path = sprintf(strcat(pwd, '/affect_detection/data/pilot_exp/objective/preprocessed/eeg/%s.csv'), file);
+    export_file_path = sprintf(strcat(pwd, '/affect_detection/data/objective/preprocessed/eeg/%s.csv'), file);
     
     % Export preprocessed data
     pop_export(EEG,export_file_path,'transpose','on','separator',',','precision',16);
