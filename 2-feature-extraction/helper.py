@@ -93,7 +93,7 @@ def relative_psd_ts(x, fs, window, band):
     return mean_per_second
 
 
-def add_deap_subjective_measures(power):
+def add_deap_subjective_measures(bands):
     # Read Excel file with video types
     vl = pd.read_excel(d + '/data/deap/subjective_measures/video_list.xls')
     # Define quadrants
@@ -118,11 +118,11 @@ def add_deap_subjective_measures(power):
     # Add quadrants
     ratings_quadrants = pd.merge(ratings, quadrants, on=['video_id'])
     # In the Python scripts, videos are 0-indexed, while the Excel file with the quadrant types, videos are 1-indexed
-    power['video_id'] = power['video_id'] + 1
+    bands['video_id'] = bands['video_id'] + 1
     # Add quadrants
-    power_ratings_quadrants = power.merge(ratings_quadrants, on=['participant', 'video_id'])
+    bands_ratings_quadrants = bands.merge(ratings_quadrants, on=['participant', 'video_id'])
 
-    return power_ratings_quadrants
+    return bands_ratings_quadrants
 
 # Self-reports
 def add_exp_subjective_measures(power):
@@ -178,3 +178,37 @@ def mahalanobis(x=None, data=None, cov=None):
     left = np.dot(x_mu, inv_covmat)
     mahal = np.dot(left, x_mu.T)
     return mahal.diagonal()
+
+
+def get_exp_self_reports():
+    self_reports_collection = []
+    for p in exp_participant_codes:
+        # Read data
+        filename = d + '/data/pilot_exp/subjective/self_reports/%s_self_report.csv' % (p)
+        psychopy_data = pd.read_csv(filename)
+        self_reports = psychopy_data[['videoFile', 'likertNegativity.response', 'likertPositivity.response', 'likertArousal.response']]
+        self_reports = self_reports.dropna().reset_index(drop=True)
+
+        # Add participant code
+        self_reports['participant_code'] = p
+
+        # Create empty column for video codes
+        self_reports['video_id'] = 'NaN'
+
+        # Add video number (trial number)
+        self_reports['trial'] = list(range(1, 17))
+
+        # Assign video codes
+        for key, value in exp_video_ids_dict.items():
+            self_reports.loc[self_reports['videoFile'] == key, 'video_id'] = value
+
+        # Rename columns
+        self_reports.columns = ['video_file', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating', 'participant', 'video_id', 'trial']
+
+        # Add self-report to list
+        self_reports_collection.append(self_reports)
+
+    all_self_reports = pd.concat(self_reports_collection)
+    all_self_reports = all_self_reports[['participant', 'video_id', 'trial', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating']]
+
+    return all_self_reports

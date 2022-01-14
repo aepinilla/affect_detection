@@ -25,12 +25,6 @@ def features_deap_online():
         file = (d + '/data/deap/objective_measures_preprocessed_online/preprocessed/s%s.csv' % (p))
         # Read ratings file
         ratings = pd.read_excel(d + '/data/deap/subjective_measures/participant_ratings.xls')
-        # Extract data from current participant
-        trials = ratings[ratings['Participant_id'] == p]
-        # Extract trial numbers and experiment ids key-pairs
-        trials = trials[['Trial', 'Experiment_id']]
-        # Rename columns
-        trials.columns = ['trial', 'video_id']
         # All data
         eeg_data = pd.read_csv(file)
 
@@ -49,7 +43,7 @@ def features_deap_online():
             # Run once on each video
             psd_collection = []
             for v in deap_videos:
-                print("processing video %s..." % (v))
+                print("Processing video %s..." % (v))
                 # Video data
                 eeg_data_video = eeg_data.iloc[start_idx.index[v]:start_idx.index[v]+len_video,:]
                 # Video dict
@@ -63,8 +57,6 @@ def features_deap_online():
                 psd_rolling_df['video_id'] = v
                 # Numerate time series
                 psd_rolling_df['second'] = list(range(len(psd_rolling_df)))
-                # Write trial number
-                psd_rolling_df['trial'] = v
                 # Append result to list
                 psd_collection.append(psd_rolling_df)
                 # Transform list with participant's results into a pandas dataframe
