@@ -11,11 +11,12 @@ sys.path.append('../')
 import pandas as pd
 from settings import fs, welch_window_size, bands, exp_videos, electrode_sites, exp_participant_codes, exp_video_ids_dict, moving_window_size
 from helper import relative_psd_ts, add_exp_subjective_measures, get_exp_self_reports, moving_window
+
 # Define working directory
 d = os.path.dirname(os.getcwd())
 
 
-def features_pilot_exp():
+def extract_features():
     for p in exp_participant_codes:
         # Read participant data
         print("Reading participant %s..." % (p))
@@ -31,7 +32,8 @@ def features_pilot_exp():
         # Find start indices
         start = eeg_data['Time'] == 0
         start_idx = start[start]
-        # The length of the data of each video is 60 seconds times the sampling frequency (fs)
+        # The length of the data of each video is 60 seconds times the sampling frequency (fs), minus 1 sample.
+        # The last sample is erased by Matlab
         len_video = (60 * fs) - 1
         # Run once on each band
         band_collection = []
@@ -79,14 +81,11 @@ def features_pilot_exp():
                          'parietal_mean': (bands_df_subjective['P3'] + bands_df_subjective['P4']) / 2,
                          'negativity_rating': bands_df_subjective['negativity_rating'],
                          'positivity_rating': bands_df_subjective['positivity_rating'],
-                         'net_predisposition_rating': bands_df_subjective['net_predisposition_rating'],
-                         'negativity_type': bands_df_subjective['negativity_type'],
-                         'positivity_type': bands_df_subjective['positivity_type'],
-                         'net_predisposition_type': bands_df_subjective['net_predisposition_type']}
+                         'net_predisposition_rating': bands_df_subjective['net_predisposition_rating']}
         features_df = pd.DataFrame(features_dict)
         # Export features to CSV file
-        features_df.to_csv((d + '/affect_detection/features/s%s_features.csv' % (p)), index=False)
+        features_df.to_csv((d + '/affect_detection/features/%s_features.csv' % (p)), index=False)
 
 
 if __name__ == "__main__":
-    features_pilot_exp()
+    extract_features()

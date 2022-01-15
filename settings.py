@@ -59,19 +59,14 @@ labels_idx = {
 }
 
 # Define bands
-#bands = ['delta', 'theta', 'alpha', 'beta', 'gamma']
-bands = ['gamma']
+bands = ['delta', 'theta', 'alpha', 'beta', 'gamma']
 
 # Define list of videos
 # Videos preprocessed using the offline approach are 0-indexed
-#deap_videos = list(range(0, 40))
-deap_videos = list(range(0, 1))
-
+deap_videos = list(range(0, 40))
 
 # Define list of participants
-#deap_participants = list(range(1,33))
-deap_participants = list(range(1,2))
-
+deap_participants = list(range(1,33))
 
 # Define names of EEG electrode sites
 electrode_sites = ['F3', 'F4', 'P3', 'P4']
@@ -82,21 +77,21 @@ exp_videos = list(range(1, 17))
 exp_participant_codes = ['3I6EY',
                          '6HARB',
                          'AY9SI',
-                         'DODE8', #Outlier
+                         #'DODE8', #Outlier
                          'GLJO8',
-                         'GNIE1', #Outlier
+                         #'GNIE1', #Outlier
                          #'J7BUL',#Corrupted data
                          #'JB584',#Corrupted data
                          'KNY2Z',
                          'MJC27',
                          'MRB58',
                          'NJL7V',
-                         'PJGHY', #Outlier
+                         #'PJGHY', #Outlier
                          'QPLQF',
-                         'RSC25', #Outlier
+                         #'RSC25', #Outlier
                          'SDE14',
                          'SWLFB',
-                         'SXZNO', #Outlier
+                         #'SXZNO', #Outlier
                          'TXNOY',
                          'UVBY3',
                          'VHY9N',

@@ -1,4 +1,6 @@
 import os, sys
+from os import listdir
+
 import pandas as pd
 import numpy as np
 import seaborn as sns; sns.set()
@@ -68,38 +70,6 @@ def relative_psd_ts(x, fs, window, band):
     return mean_per_second
 
 
-def add_deap_subjective_measures(bands):
-    # Read Excel file with video types
-    vl = pd.read_excel(d + '/data/deap/subjective_measures/video_list.xls')
-    # Define quadrants
-    quadrants = vl[['Experiment_id', 'VAQ_Online']]
-    quadrants.columns = ['video_id', 'quadrant']
-    # Arousal video types
-    quadrants.loc[quadrants['quadrant'] == 1, 'arousal_type'] = 'HA'
-    quadrants.loc[quadrants['quadrant'] == 2, 'arousal_type'] = 'LA'
-    quadrants.loc[quadrants['quadrant'] == 3, 'arousal_type'] = 'LA'
-    quadrants.loc[quadrants['quadrant'] == 4, 'arousal_type'] = 'HA'
-    # Valence video types
-    quadrants.loc[quadrants['quadrant'] == 1, 'valence_type'] = 'HV'
-    quadrants.loc[quadrants['quadrant'] == 2, 'valence_type'] = 'HV'
-    quadrants.loc[quadrants['quadrant'] == 3, 'valence_type'] = 'LV'
-    quadrants.loc[quadrants['quadrant'] == 4, 'valence_type'] = 'LV'
-    # Drop empty rows
-    quadrants = quadrants.dropna()
-    # Read subjective ratings
-    ratings = pd.read_excel(d + '/data/deap/subjective_measures/participant_ratings.xls')
-    ratings = ratings[['Participant_id', 'Experiment_id', 'Valence', 'Arousal']]
-    ratings.columns = ['participant', 'video_id', 'valence_rating', 'arousal_rating']
-    # Add quadrants
-    ratings_quadrants = pd.merge(ratings, quadrants, on=['video_id'])
-    # In the Python scripts, videos are 0-indexed, while the Excel file with the quadrant types, videos are 1-indexed
-    bands['video_id'] = bands['video_id'] + 1
-    # Add quadrants
-    bands_ratings_quadrants = bands.merge(ratings_quadrants, on=['participant', 'video_id'])
-
-    return bands_ratings_quadrants
-
-
 def add_exp_subjective_measures(power):
     self_reports_collection = []
     for p in exp_participant_codes:
@@ -123,23 +93,9 @@ def add_exp_subjective_measures(power):
         self_reports_collection.append(self_reports)
     # Concatenate all self-reports
     all_self_reports = pd.concat(self_reports_collection)
-    all_self_reports = all_self_reports[
-        ['participant', 'video_id', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating']]
-    # Add quadrants
-    quadrants = all_self_reports.loc[:,
-                ['video_id', 'participant', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating']]
-    # quadrants = quadrants.groupby(['video_id']).mean().reset_index()
-    quadrants.loc[quadrants['negativity_rating'] < 5, 'negativity_type'] = 'LN'
-    quadrants.loc[quadrants['negativity_rating'] > 5, 'negativity_type'] = 'HN'
-    quadrants.loc[quadrants['positivity_rating'] < 5, 'positivity_type'] = 'LP'
-    quadrants.loc[quadrants['positivity_rating'] > 5, 'positivity_type'] = 'HP'
-    quadrants.loc[quadrants['net_predisposition_rating'] < 5, 'net_predisposition_type'] = 'LNP'
-    quadrants.loc[quadrants['net_predisposition_rating'] > 5, 'net_predisposition_type'] = 'HNP'
-    quadrants = quadrants.drop(columns=['negativity_rating', 'positivity_rating', 'net_predisposition_rating'])
-    # Add quadrants to subjective ratings
-    subjective_quadrants = pd.merge(all_self_reports, quadrants, on=['participant', 'video_id'])
+    all_self_reports = all_self_reports[['participant', 'video_id', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating']]
     # Merge self-reports with PSD data
-    power_subjective = power.merge(subjective_quadrants, on=['participant', 'video_id'])
+    power_subjective = power.merge(all_self_reports, on=['participant', 'video_id'])
 
     return power_subjective
 
@@ -187,3 +143,8 @@ def get_exp_self_reports():
     all_self_reports = all_self_reports[['participant', 'video_id', 'trial', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating']]
 
     return all_self_reports
+
+
+def find_csv_filenames(path_to_dir, suffix=".csv" ):
+    filenames = listdir(path_to_dir)
+    return [ filename for filename in filenames if filename.endswith( suffix ) ]
