@@ -59,20 +59,17 @@ labels_idx = {
 }
 
 # Define bands
+#bands = ['delta', 'theta', 'alpha', 'beta', 'gamma']
 bands = ['delta', 'theta', 'alpha', 'beta', 'gamma']
 
-# Define list of videos
-# Videos preprocessed using the offline approach are 0-indexed
-deap_videos = list(range(0, 40))
-
-# Define list of participants
-deap_participants = list(range(1,33))
 
 # Define names of EEG electrode sites
 electrode_sites = ['F3', 'F4', 'P3', 'P4']
 
 # Pilot experiment videos
-exp_videos = list(range(1, 17))
+#exp_videos = list(range(1, 17))
+exp_videos = list(range(1, 2))
+
 
 exp_participant_codes = ['3I6EY',
                          '6HARB',

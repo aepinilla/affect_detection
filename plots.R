@@ -39,7 +39,9 @@ delta_fa.model = lmer(frontal_asymmetry ~ negativity_rating + positivity_rating 
                   data = delta_data,
                   control = lmerControl(calc.derivs = FALSE))
   
-plot_model(delta_fa.model, type = "slope")
+p <- plot_model(delta_fa.model, type = "slope")
+p + xlim(1, 10)
+
 plot_model(delta_fa.model, type = "re")
 
 attr(delta_data$parietal_mean, "label") <- paste("Mean parietal", b, "power")
