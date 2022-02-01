@@ -29,10 +29,10 @@ for (d in dimensions) {
         filter(band == b)
       
       # Build full model
-      dimension.model = lmer(get(f) ~ get(d) +
-                               (1+get(d)|participant) +
-                               (1+get(d)|video_id) +
-                               (1+get(d)|second),
+      dimension.model = lmer(get(d) ~ get(f) +
+                               (1+get(f)|participant) +
+                               (1+get(f)|video_id) +
+                               (1+get(f)|second),
                              REML=FALSE,
                              data = band_data,
                              control = lmerControl(calc.derivs = FALSE))
@@ -41,7 +41,7 @@ for (d in dimensions) {
       plot_title <- sprintf('%s_%s_%s', d, b, f)
       
       jpeg(sprintf('../figures/assumptions/%s_residuals.jpg', plot_title))
-      plot(fitted(dimension.model), jitter(residuals(dimension.model), 1000))
+      plot(fitted(dimension.model), jitter(residuals(dimension.model), 5))
       title(sub = plot_title)
       dev.off()
       

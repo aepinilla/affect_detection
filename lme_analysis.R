@@ -27,19 +27,19 @@ for (d in dimensions) {
         filter(band == b)
       
       # Build full model
-      dimension.model = lmer(get(f) ~ get(d) +
-                                (1+get(d)|participant) +
-                                (1+get(d)|video_id) +
-                                (1+get(d)|second),
+      dimension.model = lmer(get(d) ~ get(f) +
+                                (1+get(f)|participant) +
+                                (1+get(f)|video_id) +
+                                (1+get(f)|second),
                               REML=FALSE,
                               data = band_data,
                               control = lmerControl(calc.derivs = FALSE))
       
       # Build null model
-      dimension.null = lmer(get(f) ~
-                               (1+get(d)|participant) +
-                               (1+get(d)|video_id) +
-                               (1+get(d)|second),
+      dimension.null = lmer(get(d) ~
+                               (1+get(f)|participant) +
+                               (1+get(f)|video_id) +
+                               (1+get(f)|second),
                              REML=FALSE,
                              data = band_data,
                              control = lmerControl(calc.derivs = FALSE))
@@ -47,10 +47,10 @@ for (d in dimensions) {
       # Obtain likelihood ratio for negativity dimension
       result <- anova(dimension.null, dimension.model)
       all_results[[sprintf('%s_%s_%s', d, b, f)]] <- result
-  
     }
   }
 }
 
 capture.output(all_results, file = "~/Documents/MATLAB/affect_detection/results/lmm_results.txt")
 print(all_results)
+
