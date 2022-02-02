@@ -44,7 +44,7 @@ for (d in dimensions) {
     attr(band_data$frontal_asymmetry, "label") <- paste("Frontal", b, "asymmetry")
 
     # Build full model
-    dimension.model = lmer(get(d) ~ frontal_asymmetry +
+    dimension.model = lmer(get(d) ~ frontal_asymmetry + gender +
                              (1+frontal_asymmetry|participant) +
                              (1+frontal_asymmetry|video_id) +
                              (1+frontal_asymmetry|second),
@@ -72,7 +72,7 @@ for (d in dimensions) {
     attr(band_data$parietal_mean, "label") <- paste("Mean parietal", b, "power")
     
     # Build full model
-    dimension.model = lmer(get(d) ~ parietal_mean +
+    dimension.model = lmer(get(d) ~ parietal_mean + gender +
                              (1+parietal_mean|participant) +
                              (1+parietal_mean|video_id) +
                              (1+parietal_mean|second),

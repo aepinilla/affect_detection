@@ -11,15 +11,23 @@ sys.path.append('../')
 import pandas as pd
 from settings import fs, welch_window_size, bands, exp_videos, electrode_sites, exp_participant_codes, exp_video_ids_dict, moving_window_size
 from helper import relative_psd_ts, add_exp_subjective_measures, get_exp_self_reports, moving_window
-
+from extract_demographics import extract_demographics
 # Define working directory
 d = os.path.dirname(os.getcwd())
 
 
 def extract_features():
+    # Read demgoraphics data file
+    demographics = pd.read_csv(d + '/affect_detection/data/subjective/demographics.csv')
+    non_outliers = demographics[demographics['Participant Code'].isin(exp_participant_codes)]
+    genders = non_outliers[['Participant Code', 'What is your gender?']]
+
     for p in exp_participant_codes:
         # Read participant data
         print("Reading participant %s..." % (p))
+        # What is the gender?
+        gender = genders.loc[genders['Participant Code'] == p]
+        g = gender.iloc[0,1]
         # EEG file name
         file = (d + '/affect_detection/data/objective/preprocessed/eeg/%s_eeg.csv' % (p))
         # Read EEG preprocessed data
@@ -74,6 +82,7 @@ def extract_features():
         bands_df_subjective = add_exp_subjective_measures(bands_df_ids)
         # Extract features
         features_dict = {'participant': bands_df_subjective['participant'],
+                         'gender': g,
                          'video_id': bands_df_subjective['video_id'],
                          'second': bands_df_subjective['second'],
                          'band': bands_df_subjective['band'],

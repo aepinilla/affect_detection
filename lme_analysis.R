@@ -28,7 +28,7 @@ for (d in dimensions) {
       
       # Build full model
       dimension.model = lmer(get(d) ~ get(f) +
-                                (1+get(f)|participant) +
+                                (1+get(f)|participant) + gender +
                                 (1+get(f)|video_id) +
                                 (1+get(f)|second),
                               REML=FALSE,
@@ -37,7 +37,7 @@ for (d in dimensions) {
       
       # Build null model
       dimension.null = lmer(get(d) ~
-                               (1+get(f)|participant) +
+                               (1+get(f)|participant) + gender +
                                (1+get(f)|video_id) +
                                (1+get(f)|second),
                              REML=FALSE,

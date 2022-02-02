@@ -1,276 +1,274 @@
 $negativity_rating_delta_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 58853 58937 -29416    58831                     
-dimension.model   12 58854 58945 -29415    58830 1.1711  1     0.2792
+dimension.null    12 58855 58946 -29416    58831                     
+dimension.model   13 58856 58954 -29415    58830 1.1684  1     0.2797
 
 $negativity_rating_theta_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
-dimension.null    11 58533 58617 -29256    58511                    
-dimension.model   12 58536 58626 -29256    58512     0  1          1
+dimension.null    12 58535 58626 -29256    58511                    
+dimension.model   13 58537 58636 -29256    58511     0  1          1
 
 $negativity_rating_alpha_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 58820 58904 -29399    58798                     
-dimension.model   12 58820 58911 -29398    58796 2.6654  1     0.1026
+dimension.null    12 58822 58913 -29399    58798                     
+dimension.model   13 58821 58920 -29398    58795 2.6501  1     0.1035
 
 $negativity_rating_beta_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 58748 58831 -29363    58726                     
-dimension.model   12 58749 58840 -29363    58725 0.5471  1     0.4595
+dimension.null    12 58749 58840 -29363    58725                     
+dimension.model   13 58751 58849 -29362    58725 0.5353  1     0.4644
 
 $negativity_rating_gamma_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 58716 58799 -29347    58694                     
-dimension.model   12 58717 58808 -29346    58693 1.1235  1     0.2892
+dimension.null    12 58718 58809 -29347    58694                     
+dimension.model   13 58719 58817 -29346    58693 1.1113  1     0.2918
 
 $negativity_rating_delta_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 58022 58105 -29000    58000                     
-dimension.model   12 58024 58115 -29000    58000 0.0937  1     0.7595
+dimension.null    12 58024 58115 -29000    58000                     
+dimension.model   13 58026 58124 -29000    58000 0.0986  1     0.7535
 
 $negativity_rating_theta_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
-dimension.null    11 57734 57817 -28856    57712                    
-dimension.model   12 57736 57827 -28856    57712     0  1          1
+dimension.null    12 57735 57826 -28856    57711                    
+dimension.model   13 57737 57836 -28856    57711     0  1          1
 
 $negativity_rating_alpha_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
-dimension.null    11 57346 57430 -28662    57324                    
-dimension.model   12 57351 57442 -28663    57327     0  1          1
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
+dimension.null    12 57348 57438 -28662    57324                     
+dimension.model   13 57349 57448 -28662    57323 0.5289  1     0.4671
 
 $negativity_rating_beta_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)  
-dimension.null    11 55488 55571 -27733    55466                       
-dimension.model   12 55486 55577 -27731    55462 3.1875  1     0.0742 .
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
+dimension.null    12 55512 55603 -27744    55488                    
+dimension.model   13 55514 55613 -27744    55488     0  1          1
 
 $negativity_rating_gamma_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
-dimension.null    11 58447 58531 -29213    58425                    
-dimension.model   12 58455 58546 -29215    58431     0  1          1
+dimension.null    12 58501 58592 -29238    58477                    
+dimension.model   13 58528 58627 -29251    58502     0  1          1
 
 $positivity_rating_delta_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 57742 57825 -28860    57720                     
-dimension.model   12 57742 57833 -28859    57718 2.0288  1     0.1543
+dimension.null    12 57744 57835 -28860    57720                     
+dimension.model   13 57744 57842 -28859    57718 2.0249  1     0.1547
 
 $positivity_rating_theta_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 57158 57241 -28568    57136                     
-dimension.model   12 57160 57251 -28568    57136 0.1398  1     0.7085
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
+dimension.null    12 57160 57251 -28568    57136                    
+dimension.model   13 57162 57260 -28568    57136     0  1          1
 
 $positivity_rating_alpha_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
-dimension.null    11 57671 57754 -28824    57649                    
-dimension.model   12 57673 57764 -28824    57649 0.028  1      0.867
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
+dimension.null    12 57672 57763 -28824    57648                     
+dimension.model   13 57674 57772 -28824    57648 0.0287  1     0.8656
 
 $positivity_rating_beta_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 57628 57711 -28803    57606                     
-dimension.model   12 57628 57719 -28802    57604 1.2367  1     0.2661
+dimension.null    12 57629 57720 -28803    57605                     
+dimension.model   13 57630 57729 -28802    57604 1.1927  1     0.2748
 
 $positivity_rating_gamma_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 57789 57872 -28884    57767                     
-dimension.model   12 57791 57881 -28883    57767 0.4224  1     0.5157
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
+dimension.null    12 57791 57882 -28883    57767                    
+dimension.model   13 57792 57891 -28883    57766 0.413  1     0.5205
 
 $positivity_rating_delta_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 57187 57270 -28582    57165                     
-dimension.model   12 57188 57279 -28582    57164 0.7624  1     0.3826
+dimension.null    12 57187 57278 -28582    57163                     
+dimension.model   13 57189 57288 -28582    57163 0.0284  1     0.8661
 
 $positivity_rating_theta_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
-dimension.null    11 56944 57027 -28461    56922                    
-dimension.model   12 56950 57041 -28463    56926     0  1          1
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
+dimension.null    12 56947 57038 -28462    56923                     
+dimension.model   13 56949 57047 -28461    56923 0.5321  1     0.4657
 
 $positivity_rating_alpha_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
-dimension.null    11 56563 56646 -28270    56541                    
-dimension.model   12 56740 56831 -28358    56716     0  1          1
+dimension.null    12 56564 56655 -28270    56540                    
+dimension.model   13 56711 56810 -28343    56685     0  1          1
 
 $positivity_rating_beta_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
-dimension.null    11 55517 55600 -27748    55495                    
-dimension.model   12 55519 55610 -27748    55495     0  1          1
+dimension.null    12 55514 55605 -27745    55490                    
+dimension.model   13 55516 55615 -27745    55490     0  1          1
 
 $positivity_rating_gamma_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 57381 57464 -28679    57359                     
-dimension.model   12 57382 57473 -28679    57358 0.1057  1     0.7451
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)    
+dimension.null    12 57418 57509 -28697    57394                         
+dimension.model   13 57385 57483 -28679    57359 35.819  1  2.165e-09 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 $net_predisposition_rating_delta_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 50824 50907 -25401    50802                     
-dimension.model   12 50825 50916 -25401    50801 0.1922  1     0.6611
+dimension.null    12 50826 50916 -25401    50802                     
+dimension.model   13 50827 50926 -25401    50801 0.2041  1     0.6514
 
 $net_predisposition_rating_theta_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
-dimension.null    11 50628 50711 -25303    50606                    
-dimension.model   12 50681 50772 -25328    50657     0  1          1
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
+dimension.null    12 50630 50721 -25303    50606                     
+dimension.model   13 50631 50730 -25303    50605 0.9079  1     0.3407
 
 $net_predisposition_rating_alpha_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 50894 50977 -25436    50872                     
-dimension.model   12 50895 50986 -25436    50871 0.6693  1     0.4133
+dimension.null    12 50896 50987 -25436    50872                     
+dimension.model   13 50897 50996 -25436    50871 0.6664  1     0.4143
 
 $net_predisposition_rating_beta_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 50946 51029 -25462    50924                     
-dimension.model   12 50947 51038 -25461    50923 1.0858  1     0.2974
+dimension.null    12 50948 51039 -25462    50924                     
+dimension.model   13 50949 51047 -25461    50923 1.1456  1     0.2845
 
 $net_predisposition_rating_gamma_frontal_asymmetry
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
-dimension.null    11 51029 51112 -25503    51007                    
-dimension.model   12 51030 51121 -25503    51006 0.053  1      0.818
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
+dimension.null    12 51030 51121 -25503    51006                     
+dimension.model   13 51032 51131 -25503    51006 0.0477  1     0.8272
 
 $net_predisposition_rating_delta_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 50515 50598 -25246    50493                     
-dimension.model   12 50516 50607 -25246    50492 0.8582  1     0.3542
+dimension.null    12 50518 50609 -25247    50494                     
+dimension.model   13 50518 50616 -25246    50492 2.5042  1     0.1135
 
 $net_predisposition_rating_theta_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)    
-dimension.null    11 50361 50444 -25170    50339                         
-dimension.model   12 50302 50393 -25139    50278 60.658  1  6.789e-15 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
+dimension.null    12 50302 50393 -25139    50278                     
+dimension.model   13 50303 50401 -25138    50277 0.7545  1     0.3851
 
 $net_predisposition_rating_alpha_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
                 npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)    
-dimension.null    11 50297 50380 -25137    50275                         
-dimension.model   12 50198 50288 -25087    50174 101.21  1  < 2.2e-16 ***
+dimension.null    12 50297 50388 -25137    50273                         
+dimension.model   13 50201 50300 -25088    50175 97.967  1  < 2.2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 $net_predisposition_rating_beta_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-dimension.null    11 49632 49715 -24805    49610                     
-dimension.model   12 49633 49724 -24805    49609 0.4812  1     0.4879
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
+dimension.null    12 49613 49704 -24794    49589                    
+dimension.model   13 49618 49717 -24796    49592     0  1          1
 
 $net_predisposition_rating_gamma_parietal_mean
 Data: band_data
 Models:
-dimension.null: get(d) ~ (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + (1 + get(f) | video_id) + (1 + get(f) | second)
-                npar   AIC   BIC logLik deviance Chisq Df Pr(>Chisq)
-dimension.null    11 50941 51024 -25459    50919                    
-dimension.model   12 50943 51034 -25460    50919     0  1          1
+dimension.null: get(d) ~ (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+dimension.model: get(d) ~ get(f) + (1 + get(f) | participant) + gender + (1 + get(f) | video_id) + (1 + get(f) | second)
+                npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
+dimension.null    12 50943 51034 -25460    50919                     
+dimension.model   13 50945 51043 -25459    50919 0.1071  1     0.7435
 

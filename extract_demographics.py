@@ -12,7 +12,7 @@ from settings import exp_participant_codes
 d = os.path.dirname(os.getcwd())
 
 def extract_demographics():
-    # Read demgoraphic data file
+    # Read demgoraphics data file
     data = pd.read_csv(d + '/affect_detection/data/subjective/demographics.csv')
     non_outliers = data[data['Participant Code'].isin(exp_participant_codes)]
 
@@ -24,7 +24,7 @@ def extract_demographics():
         'gender_count': non_outliers.groupby(['What is your gender?']).size()
     })
 
-    demographics.to_csv('results/demographics_summary.csv')
+    #demographics.to_csv('results/demographics_summary.csv')
     return demographics
 
 

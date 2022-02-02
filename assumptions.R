@@ -19,6 +19,8 @@ dimensions <- list('negativity_rating', 'positivity_rating', 'net_predisposition
 features <- list('frontal_asymmetry', 'parietal_mean')
 bands <- list('delta', 'theta', 'alpha', 'beta', 'gamma')
 
+# Transform gender variable to factor for increasing processing speed
+all_files$gender <- as.factor(all_files$gender)
 
 all_results <- list()
 for (d in dimensions) {
@@ -29,7 +31,7 @@ for (d in dimensions) {
         filter(band == b)
       
       # Build full model
-      dimension.model = lmer(get(d) ~ get(f) +
+      dimension.model = lmer(get(d) ~ get(f) + gender +
                                (1+get(f)|participant) +
                                (1+get(f)|video_id) +
                                (1+get(f)|second),
