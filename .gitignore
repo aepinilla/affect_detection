@@ -1,8 +1,9 @@
 /data
 /archive
+/features
+/figures
 /stats
 .idea
-/figures
 .DS_Store
 structure.xlsx
 __pycache__/

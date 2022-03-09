@@ -64,10 +64,10 @@ def relative_psd_ts(x, fs, window, band):
     # # Calculate relative alpha power
     relative_band_psd_ts = 100 * (band_psd / total_psd)
     # Take the average PSD of each second
-    scale_factor = 95
-    mean_per_second = [sum(relative_band_psd_ts[i:i + scale_factor]) / scale_factor for i in range(0, len(relative_band_psd_ts), scale_factor)]
+    # scale_factor = 95
+    # mean_per_second = [sum(relative_band_psd_ts[i:i + scale_factor]) / scale_factor for i in range(0, len(relative_band_psd_ts), scale_factor)]
 
-    return mean_per_second
+    return relative_band_psd_ts
 
 
 def add_exp_subjective_measures(power):

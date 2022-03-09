@@ -27,19 +27,25 @@ for (d in dimensions) {
         filter(band == b)
       
       # Build full model
-      dimension.model = lmer(get(d) ~ get(f) +
-                                (1+get(f)|participant) + gender +
-                                (1+get(f)|video_id) +
-                                (1+get(f)|second),
+      dimension.model = lmer(get(d) ~ get(f) + gender +
+                                (1|participant) +
+                                (get(f)-1|participant) +
+                                (1|video_id) +
+                                (get(f)-1|video_id) +
+                                (1|second) +
+                                (get(f)-1|second),
                               REML=FALSE,
                               data = band_data,
                               control = lmerControl(calc.derivs = FALSE))
       
       # Build null model
-      dimension.null = lmer(get(d) ~
-                               (1+get(f)|participant) + gender +
-                               (1+get(f)|video_id) +
-                               (1+get(f)|second),
+      dimension.null = lmer(get(d) ~ gender +
+                              (1|participant) +
+                              (get(f)-1|participant) +
+                              (1|video_id) +
+                              (get(f)-1|video_id) +
+                              (1|second) +
+                              (get(f)-1|second),
                              REML=FALSE,
                              data = band_data,
                              control = lmerControl(calc.derivs = FALSE))
