@@ -70,36 +70,6 @@ def relative_psd_ts(x, fs, window, band):
     return relative_band_psd_ts
 
 
-def add_exp_subjective_measures(power):
-    self_reports_collection = []
-    for p in exp_participant_codes:
-        # Read data
-        filename = d + '/affect_detection/data/subjective/self_reports/%s_self_report.csv' % (p)
-        psychopy_data = pd.read_csv(filename)
-        self_reports = psychopy_data[
-            ['videoFile', 'likertNegativity.response', 'likertPositivity.response', 'likertArousal.response']]
-        self_reports = self_reports.dropna().reset_index(drop=True)
-        # Add participant code
-        self_reports['participant_code'] = p
-        # Create empty column for video codes
-        self_reports['video_id'] = 'NaN'
-        # Assign video codes
-        for key, value in exp_video_ids_dict.items():
-            self_reports.loc[self_reports['videoFile'] == key, 'video_id'] = value
-        # Rename columns
-        self_reports.columns = ['video_file', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating',
-                                'participant', 'video_id']
-        # Add self-report to list
-        self_reports_collection.append(self_reports)
-    # Concatenate all self-reports
-    all_self_reports = pd.concat(self_reports_collection)
-    all_self_reports = all_self_reports[['participant', 'video_id', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating']]
-    # Merge self-reports with PSD data
-    power_subjective = power.merge(all_self_reports, on=['participant', 'video_id'])
-
-    return power_subjective
-
-
 def mahalanobis(x=None, data=None, cov=None):
 
     x_mu = x - np.mean(data)

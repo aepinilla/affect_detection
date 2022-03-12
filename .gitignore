@@ -1,8 +1,9 @@
-/data
-/archive
-/features
-/figures
-/stats
+data/
+archive/
+features/
+lme_features/
+figures/
+stats/
 .idea
 .DS_Store
 structure.xlsx

@@ -12,6 +12,8 @@ import pandas as pd
 from settings import fs, welch_window_size, bands, exp_videos, electrode_sites, exp_participant_codes, exp_video_ids_dict, moving_window_size
 from helper import relative_psd_ts, add_exp_subjective_measures, get_exp_self_reports, moving_window
 from extract_demographics import extract_demographics
+from process_self_reports import process_self_reports
+
 # Define working directory
 d = os.path.dirname(os.getcwd())
 
@@ -21,6 +23,9 @@ def extract_features():
     demographics = pd.read_csv(d + '/affect_detection/data/subjective/demographics.csv')
     non_outliers = demographics[demographics['Participant Code'].isin(exp_participant_codes)]
     genders = non_outliers[['Participant Code', 'What is your gender?']]
+
+    # Process self_reports
+    all_self_reports = process_self_reports()
 
     for p in exp_participant_codes:
         # Read participant data
@@ -32,11 +37,10 @@ def extract_features():
         file = (d + '/affect_detection/data/objective/preprocessed/eeg/%s_eeg.csv' % (p))
         # Read EEG preprocessed data
         eeg_data = pd.read_csv(file)
-        # Read self-reports
-        all_self_reports = get_exp_self_reports()
-        # Find trials
-        trials = all_self_reports[all_self_reports['participant'] == p]
-        trials = trials[['video_id', 'trial']]
+        # Subset participant's self-reports
+        participant_self_reports = all_self_reports.loc[all_self_reports['participant'] == p]
+        # # Find trials
+        # trials = participant_self_reports[['video_id', 'trial']]
         # Find start indices
         start = eeg_data['Time'] == 0
         start_idx = start[start]
@@ -63,7 +67,7 @@ def extract_features():
                 # Assign video number
                 psd_rolling_df['trial'] = v
                 # Numerate time series
-                psd_rolling_df['second'] = list(range(len(psd_rolling_df)))
+                psd_rolling_df['timestamp'] = list(range(len(psd_rolling_df)))
                 # Append result to list
                 psd_collection.append(psd_rolling_df)
                 # Transform list with participant's results into a pandas dataframe
@@ -76,21 +80,22 @@ def extract_features():
         bands_df = pd.concat(band_collection)
         # Add participant's number
         bands_df['participant'] = p
-        # Write video ids
-        bands_df_ids = pd.merge(bands_df, trials, on='trial')
-        # Add self-reports
-        bands_df_subjective = add_exp_subjective_measures(bands_df_ids)
+        # Add subjective data
+        bands_df_subjective = pd.merge(bands_df, participant_self_reports, on=['participant', 'trial'])
         # Extract features
         features_dict = {'participant': bands_df_subjective['participant'],
                          'gender': g,
                          'video_id': bands_df_subjective['video_id'],
-                         'second': bands_df_subjective['second'],
+                         'timestamp': bands_df_subjective['timestamp'],
                          'band': bands_df_subjective['band'],
                          'frontal_asymmetry': bands_df_subjective['F3'] - bands_df_subjective['F4'],
                          'parietal_mean': (bands_df_subjective['P3'] + bands_df_subjective['P4']) / 2,
                          'negativity_rating': bands_df_subjective['negativity_rating'],
                          'positivity_rating': bands_df_subjective['positivity_rating'],
-                         'net_predisposition_rating': bands_df_subjective['net_predisposition_rating']}
+                         'net_predisposition_rating': bands_df_subjective['net_predisposition_rating'],
+                         'negativity_type': bands_df_subjective['negativity_type'],
+                         'positivity_type': bands_df_subjective['positivity_type'],
+                         'net_predisposition_type': bands_df_subjective['net_predisposition_type']}
         features_df = pd.DataFrame(features_dict)
         # Export features to CSV file
         features_df.to_csv((d + '/affect_detection/features/%s_features.csv' % (p)), index=False)
