@@ -1,7 +1,7 @@
 library(lme4)
 library(tidyverse)
 
-setwd("~/Documents/MATLAB/affect_detection/features")
+setwd("~/Documents/MATLAB/affect_detection/reports/features/")
 
 # Create list of files
 files_list <- list.files()
@@ -53,6 +53,6 @@ for (file in 1:length(files_list)) {
       all_bands <- bind_rows(all_bands, reduced_band_video_data)
     }
     all_videos <- bind_rows(all_videos, all_bands)
-    write.csv(all_videos, file = paste("~/Documents/MATLAB/affect_detection/lme_features/",band_data$participant[1],".csv", sep = ""), row.names = FALSE)
+    write.csv(all_videos, file = paste(".../reports/lme_features/",band_data$participant[1],".csv", sep = ""), row.names = FALSE)
   }
 }

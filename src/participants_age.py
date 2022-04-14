@@ -2,18 +2,13 @@
 Calculate age of participants per gender.
 """
 
-import os, sys
-sys.path.append('../')
-
 import pandas as pd
-from settings import exp_participant_codes
+from .settings import d, exp_participant_codes
 
-# Define working directory
-d = os.path.dirname(os.getcwd())
 
-def extract_demographics():
+def participants_age():
     # Read demgoraphics data file
-    data = pd.read_csv(d + '/affect_detection/data/subjective/demographics.csv')
+    data = pd.read_csv(d + '/data/subjective/demographics.csv')
     non_outliers = data[data['Participant Code'].isin(exp_participant_codes)]
 
     demographics = pd.DataFrame.from_dict({
@@ -24,9 +19,9 @@ def extract_demographics():
         'gender_count': non_outliers.groupby(['What is your gender?']).size()
     })
 
-    #demographics.to_csv('results/demographics_summary.csv')
-    return demographics
+    demographics.to_csv(d + '/reports/participants_age.csv')
+    print('Participants age was saved to reports/participants_age.csv')
 
 
 if __name__ == "__main__":
-    extract_demographics()
+    participants_age()

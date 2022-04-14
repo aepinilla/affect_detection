@@ -1,17 +1,10 @@
 import os, sys
 from os import listdir
-
-import pandas as pd
 import numpy as np
 import seaborn as sns; sns.set()
 from scipy import signal
 from scipy.integrate import simps
-from settings import exp_participant_codes, exp_video_ids_dict
-import itertools
 
-# Define working directory
-sys.path.append('../')
-d = os.path.dirname(os.getcwd())
 
 # Define EEG bands
 eeg_bands = {'delta': (0, 4),

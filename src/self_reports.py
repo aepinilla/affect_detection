@@ -1,18 +1,14 @@
-# Analyse self-report questionnaires
-import os, sys
-sys.path.append('../')
-
-import seaborn as sns; sns.set()
 import pandas as pd
-from settings import exp_video_ids_dict, exp_participant_codes
+import seaborn as sns; sns.set()
 
-d = os.path.dirname(os.getcwd())
+from .settings import exp_video_ids_dict, exp_participant_codes, d
 
-def process_self_reports():
+
+def self_reports():
     self_reports_collection = []
     for p in exp_participant_codes:
         # Read data
-        filename = d + '/affect_detection/data/subjective/self_reports/%s_self_report.csv' % (p)
+        filename = d + '/data/subjective/self_reports/%s_self_report.csv' % (p)
         psychopy_data = pd.read_csv(filename)
         self_report = psychopy_data[['videoFile', 'likertNegativity.response', 'likertPositivity.response', 'likertArousal.response']]
         self_report = self_report.dropna().reset_index(drop=True)
@@ -39,9 +35,6 @@ def process_self_reports():
     all_self_reports = pd.concat(self_reports_collection)
     all_self_reports = all_self_reports[['participant', 'video_id', 'trial', 'negativity_rating', 'positivity_rating', 'net_predisposition_rating']]
 
-    # Mean ratings
-    mean_ratings = all_self_reports.groupby('video_id').mean()
-
     # Define video types
     all_self_reports.loc[all_self_reports['negativity_rating'] >= 5, 'negativity_type'] = 1
     all_self_reports.loc[all_self_reports['negativity_rating'] < 5, 'negativity_type'] = 0
@@ -56,4 +49,4 @@ def process_self_reports():
 
 
 if __name__ == "__main__":
-    process_self_reports()
+    self_reports()

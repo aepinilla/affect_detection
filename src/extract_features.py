@@ -5,28 +5,22 @@ using a method that is suitable for online analysis.
 This script extracts frontal asymmetry and parietal power in the alpha and theta bands.
 """
 
-import os, sys
-sys.path.append('../')
 
 import pandas as pd
 
-from settings import fs, welch_window_size, bands, exp_videos, electrode_sites, exp_participant_codes, exp_video_ids_dict, moving_window_size
-from helper import relative_psd_ts, moving_window
-from extract_demographics import extract_demographics
-from process_self_reports import process_self_reports
-
-# Define working directory
-d = os.path.dirname(os.getcwd())
+from .settings import d, fs, welch_window_size, bands, exp_videos, electrode_sites, exp_participant_codes, moving_window_size
+from .helper import relative_psd_ts, moving_window
+from .self_reports import self_reports
 
 
 def extract_features():
     # Read demgoraphics data file
-    demographics = pd.read_csv(d + '/affect_detection/data/subjective/demographics.csv')
+    demographics = pd.read_csv(d + '/data/subjective/demographics.csv')
     non_outliers = demographics[demographics['Participant Code'].isin(exp_participant_codes)]
     genders = non_outliers[['Participant Code', 'What is your gender?']]
 
     # Process self_reports
-    all_self_reports = process_self_reports()
+    all_self_reports = self_reports()
 
     for p in exp_participant_codes:
         # Read participant data
@@ -35,7 +29,7 @@ def extract_features():
         gender = genders.loc[genders['Participant Code'] == p]
         g = gender.iloc[0,1]
         # EEG file name
-        file = (d + '/affect_detection/data/objective/preprocessed/eeg/%s_eeg.csv' % (p))
+        file = (d + '/data/objective/preprocessed/eeg/%s_eeg.csv' % (p))
         # Read EEG preprocessed data
         eeg_data = pd.read_csv(file)
         # Subset participant's self-reports
@@ -99,7 +93,7 @@ def extract_features():
                          'net_predisposition_type': bands_df_subjective['net_predisposition_type']}
         features_df = pd.DataFrame(features_dict)
         # Export features to CSV file
-        features_df.to_csv((d + '/affect_detection/features/%s_features.csv' % (p)), index=False)
+        features_df.to_csv((d + '/features/%s_features.csv' % (p)), index=False)
 
 
 if __name__ == "__main__":

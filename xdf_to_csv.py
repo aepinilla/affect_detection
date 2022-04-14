@@ -3,20 +3,17 @@ Convert XDF files to CSV format for faster file loading.
 All credits to Robert Spang for defining the structure of this file.
 """
 
-import os, sys
 import pyxdf
 import pandas as pd
-from .helper import column
-from settings import exp_participant_codes
 
-sys.path.append('../')
-d = os.path.dirname(os.getcwd())
+from src.helper import column
+from src.settings import exp_participant_codes, d
 
 def xdf_to_csv():
     for p in exp_participant_codes:
         # Read data
         print("Reading data from participant %s..." % (p))
-        streams, fileheader = pyxdf.load_xdf(d + '/affect_detection/data/objective/raw/%s.xdf' % (p)) # Read streams
+        streams, fileheader = pyxdf.load_xdf(d + '/data/objective/raw/%s.xdf' % (p)) # Read streams
 
         # Find stream indices
         stream_brain_products = -1
@@ -114,9 +111,9 @@ def xdf_to_csv():
 
         # Export data
         print("Exporting data from participant %s to CSV format" % (p))
-        eeg_participant.to_csv(d + '/affect_detection/data/objective/csv/eeg/%s_eeg.csv' % (participant), index = False, header = True, sep = ',', encoding = 'utf-8')
-        emg_participant.to_csv(d + '/affect_detection/data/objective/csv/emg/%s_emg.csv' % (participant), index = False, header = True, sep = ',', encoding = 'utf-8')
-        ecg_participant.to_csv(d + '/affect_detection/data/objective/csv/ecg/%s_ecg.csv' % (participant), index = False, header = True, sep = ',', encoding = 'utf-8')
+        eeg_participant.to_csv(d + '/data/objective/csv/eeg/%s_eeg.csv' % (participant), index = False, header = True, sep = ',', encoding = 'utf-8')
+        emg_participant.to_csv(d + '/data/objective/csv/emg/%s_emg.csv' % (participant), index = False, header = True, sep = ',', encoding = 'utf-8')
+        ecg_participant.to_csv(d + '/data/objective/csv/ecg/%s_ecg.csv' % (participant), index = False, header = True, sep = ',', encoding = 'utf-8')
 
 
 if __name__ == "__main__":

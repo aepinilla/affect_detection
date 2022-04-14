@@ -1,9 +1,7 @@
-"""
-Defines variables and constants that are used in other scripts.
-"""
-
 import os
-d = os.path.dirname(os.getcwd())
+
+# Directory path
+d = os.path.dirname(os.getcwd()) + '/affect_detection'
 
 # Define sampling frequency
 fs = 128

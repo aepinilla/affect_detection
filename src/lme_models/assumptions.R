@@ -1,7 +1,7 @@
 library(lme4)
 library(tidyverse)
 
-setwd("~/Documents/MATLAB/affect_detection/lme_features")
+setwd("~/Documents/MATLAB/affect_detection/reports/lme_features/")
 
 # Create list of files
 files_list <- list.files()
