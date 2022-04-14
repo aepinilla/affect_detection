@@ -34,15 +34,11 @@ n <- 95
 # Reduce sampling rate for faster computer processing
 all_files <- list()
 
-file_data <- read.csv(files_list[1])
-video_data <- file_data %>% filter(video_id == )
-
-# for (file in 1:length(files_list)) {
 for (file in 1:length(files_list)) {
   file_data <- read.csv(files_list[file])
   all_videos <- list()
-  for (video in 1:40) {
-    video_data <- file_data %>% filter(video_id == video)
+  for (video in 1:length(video_ids)) {
+    video_data <- file_data %>% filter(video_id == video_ids[video])
     all_bands <- list()
     for (b in bands) {
       band_data = video_data %>% filter(band == b)
@@ -51,9 +47,12 @@ for (file in 1:length(files_list)) {
       reduced_band_video_data$gender <- band_data$gender[1]
       reduced_band_video_data$band <- band_data$band[1]
       reduced_band_video_data$second <- 1:60
+      reduced_band_video_data$participant <- band_data$participant[1]
+      reduced_band_video_data$video_id <- band_data$video_id[1]
+        
       all_bands <- bind_rows(all_bands, reduced_band_video_data)
     }
     all_videos <- bind_rows(all_videos, all_bands)
-    write.csv(all_videos, file = paste("~/Documents/MATLAB/affect_detection/lme_features/",file,".csv", sep = ""), row.names = FALSE)
+    write.csv(all_videos, file = paste("~/Documents/MATLAB/affect_detection/lme_features/",band_data$participant[1],".csv", sep = ""), row.names = FALSE)
   }
 }

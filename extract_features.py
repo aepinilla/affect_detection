@@ -9,8 +9,9 @@ import os, sys
 sys.path.append('../')
 
 import pandas as pd
+
 from settings import fs, welch_window_size, bands, exp_videos, electrode_sites, exp_participant_codes, exp_video_ids_dict, moving_window_size
-from helper import relative_psd_ts, add_exp_subjective_measures, get_exp_self_reports, moving_window
+from helper import relative_psd_ts, moving_window
 from extract_demographics import extract_demographics
 from process_self_reports import process_self_reports
 

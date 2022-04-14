@@ -5,8 +5,7 @@ library(Cairo)
 library(ggplot2)
 theme_set(theme_sjplot())
 
-
-setwd("~/Documents/MATLAB/affect_detection/features")
+setwd("~/Documents/MATLAB/affect_detection/lme_features")
 
 # Create list of files
 files_list <- list.files()
@@ -45,9 +44,12 @@ for (d in dimensions) {
 
     # Build full model
     dimension.model = lmer(get(d) ~ frontal_asymmetry + gender +
-                             (1+frontal_asymmetry|participant) +
-                             (1+frontal_asymmetry|video_id) +
-                             (1+frontal_asymmetry|second),
+                             (1|participant) +
+                             (frontal_asymmetry-1|participant) +
+                             (1|video_id) +
+                             (frontal_asymmetry-1|video_id) +
+                             (1|second) +
+                             (frontal_asymmetry-1|second),
                            REML=FALSE,
                            data = band_data,
                            control = lmerControl(calc.derivs = FALSE))
@@ -56,7 +58,8 @@ for (d in dimensions) {
     plot_title <- sprintf('%s_%s_frontal', d, b)
     setEPS()
     postscript(sprintf('../figures/fixed_effects/frontal/%s_fixed_effect.eps', plot_title))
-    p <- plot_model(dimension.model, type = "slope") + ylim(0,10) + xlim(-40,30)
+    p <- plot_model(dimension.model, type = "slope") + ylim(1,10)
+    #xlim(-40,30)
     print(p)
     dev.off()
   }
@@ -73,9 +76,12 @@ for (d in dimensions) {
     
     # Build full model
     dimension.model = lmer(get(d) ~ parietal_mean + gender +
-                             (1+parietal_mean|participant) +
-                             (1+parietal_mean|video_id) +
-                             (1+parietal_mean|second),
+                             (1|participant) +
+                             (parietal_mean-1|participant) +
+                             (1|video_id) +
+                             (parietal_mean-1|video_id) +
+                             (1|second) +
+                             (parietal_mean-1|second),
                            REML=FALSE,
                            data = band_data,
                            control = lmerControl(calc.derivs = FALSE))
@@ -84,7 +90,8 @@ for (d in dimensions) {
     plot_title <- sprintf('%s_%s_parietal', d, b)
     setEPS()
     postscript(sprintf('../figures/fixed_effects/parietal/%s_fixed_effect.eps', plot_title))
-    p <- plot_model(dimension.model, type = "slope") + ylim(0,10) + xlim(0,100)
+    p <- plot_model(dimension.model, type = "slope") + ylim(1,10)
+    #xlim(0,100)
     print(p)
     dev.off()
   }

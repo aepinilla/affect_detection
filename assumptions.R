@@ -1,7 +1,7 @@
 library(lme4)
 library(tidyverse)
 
-setwd("~/Documents/MATLAB/affect_detection/features")
+setwd("~/Documents/MATLAB/affect_detection/lme_features")
 
 # Create list of files
 files_list <- list.files()
@@ -12,7 +12,6 @@ for (file in 1:length(files_list)) {
   file_data <- read.csv(files_list[file])
   all_files <- bind_rows(all_files, file_data)
 }
-
 
 # Define variables
 dimensions <- list('negativity_rating', 'positivity_rating', 'net_predisposition_rating')
@@ -32,9 +31,12 @@ for (d in dimensions) {
       
       # Build full model
       dimension.model = lmer(get(d) ~ get(f) + gender +
-                               (1+get(f)|participant) +
-                               (1+get(f)|video_id) +
-                               (1+get(f)|second),
+                               (1|participant) +
+                               (get(f)-1|participant) +
+                               (1|video_id) +
+                               (get(f)-1|video_id) +
+                               (1|second) +
+                               (get(f)-1|second),
                              REML=FALSE,
                              data = band_data,
                              control = lmerControl(calc.derivs = FALSE))

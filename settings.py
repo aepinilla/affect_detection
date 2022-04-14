@@ -59,16 +59,16 @@ labels_idx = {
 }
 
 # Define bands
-# bands = ['delta', 'theta', 'alpha', 'beta', 'gamma']
-bands = ['delta']
+bands = ['delta', 'theta', 'alpha', 'beta', 'gamma']
+# bands = ['delta']
 
 
 # Define names of EEG electrode sites
 electrode_sites = ['F3', 'F4', 'P3', 'P4']
 
 # Pilot experiment videos
-# exp_videos = list(range(1, 17))
-exp_videos = list(range(1, 2))
+exp_videos = list(range(1, 17))
+# exp_videos = list(range(1, 2))
 
 
 exp_participant_codes = ['3I6EY',
