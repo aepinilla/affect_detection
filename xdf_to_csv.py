@@ -66,14 +66,14 @@ def xdf_to_csv():
         t8_data = list(column(streams[stream_gtec]['time_series'], t8_ch))
         cz_data = list(column(streams[stream_gtec]['time_series'], cz_ch))
 
-        eeg_dict = {'ref': ref_data,
-                    'f3': f3_data,
-                    'f4': f4_data,
-                    'p3': p3_data,
-                    'p4': p4_data,
-                    't7': t7_data,
-                    't8': t8_data,
-                    'cz': cz_data,
+        eeg_dict = {'REF': ref_data,
+                    'F3': f3_data,
+                    'F4': f4_data,
+                    'P3': p3_data,
+                    'P4': p4_data,
+                    'T7': t7_data,
+                    'T8': t8_data,
+                    'Cz': cz_data,
                     'time_stamps': gt_time_stamps}
         eeg_df = pd.DataFrame.from_dict(eeg_dict)
 
@@ -81,8 +81,8 @@ def xdf_to_csv():
         zm_data = list(column(streams[stream_gtec]['time_series'], zm_ch))
         cs_data = list(column(streams[stream_gtec]['time_series'], cs_ch))
 
-        emg_dict = {'zm': zm_data,
-                    'cs': cs_data,
+        emg_dict = {'ZM': zm_data,
+                    'CS': cs_data,
                     'time_stamps': gt_time_stamps}
         emg_df = pd.DataFrame.from_dict(emg_dict)
 
