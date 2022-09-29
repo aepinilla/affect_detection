@@ -1,6 +1,12 @@
 data/
 archive/
-reports/
+reports/random_indices/
+reports/metrics/lme/
+reports/metrics/rfe/
+reports/feature_selection/lme/
+reports/feature_selection/rfe/
+reports/extracted_features/lme/
+reports/extracted_features/ml/
 stats/
 .idea
 .DS_Store
