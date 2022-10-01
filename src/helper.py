@@ -93,8 +93,8 @@ def get_lme_results(p):
     return all_relevant_features
 
 
-def get_rfe_data(i, participant_features, p):
-    print('RFE iteration ' + str(i))
+def get_rfecv_data(i, participant_features, p):
+    print('RFECV iteration ' + str(i))
     # Which trials will be used for Recursive Feature Elimination?
     # These trials should be different from the trials that will be used for training the model
     # Initialize nested dictionary
@@ -116,8 +116,8 @@ def get_rfe_data(i, participant_features, p):
         relevant_data_for_ml = {key: value for (key, value) in participant_features.items() if key in trials_dict[dim]}
         relevant_trials[dim] = relevant_data_for_ml
 
-    # Adjust data structure for RFE
-    rfe_data = nested_dict()
+    # Adjust data structure for RFECV
+    rfecv_data = nested_dict()
     for dim in dimensions:
         # Flatten dictionaries
         trials_flattened = []
@@ -150,10 +150,10 @@ def get_rfe_data(i, participant_features, p):
         # Split features and labels
         selected_features = dimension_relevant_features_with_labels[dimension_relevant_features_with_labels.columns[:-1]]
         corresponding_labels = dimension_relevant_features_with_labels[[('%s_type' % (dim))]]
-        rfe_data[dim]['features'] = selected_features
-        rfe_data[dim]['labels'] = corresponding_labels
+        rfecv_data[dim]['features'] = selected_features
+        rfecv_data[dim]['labels'] = corresponding_labels
 
-    return rfe_data
+    return rfecv_data
 
 
 def get_split_indices(participant_self_reports, random_state):
@@ -288,7 +288,7 @@ def start_idx(data):
 
 def subset_trials_ml(p, selected_features, random_state):
     # Which trials will be used for training and testing the classification models?
-    # These trials should be different from the trials that were used for the RFE analysis
+    # These trials should be different from the trials that were used for the RFECV analysis
     nested_dict = lambda: defaultdict(nested_dict)
 
     all_self_reports = self_reports()

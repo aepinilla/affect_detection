@@ -11,15 +11,15 @@ library(lme4)
 library(arrow)
 
 #########################################
-# EDIT ACCORDING TO YOUR WORKING DIRECTORY
-working_directory <- "~/Documents/MATLAB/affect_detection/reports/feature_selection/lme/fa/"
+# EDIT ACCORDING TO THE PATH WHERE YOU CLONED THE REPOSITORY
+root_directory <- "~/Documents/MATLAB/affect_detection/"
 #########################################
 
+working_directory <- paste(root_directory, 'reports/extracted_features/lme/fa/', sep="")
 setwd(working_directory)
 
 # Create list of files
-# participants_list <- list.files()
-participants_list <- c("DODE8.csv", "SDE14.csv")
+participants_list <- list.files()
 len_participants_list <- seq(1, length(participants_list))
 
 # Define variables
@@ -83,7 +83,7 @@ for (p in len_participants_list) {
   participant_results <- list()
   
   # Load random trials indices
-  random_trials_file_path <- paste('~/Documents/MATLAB/affect_detection/reports/random_indices/', participants_list[p], sep = "")
+  random_trials_file_path <- paste(root_directory, 'reports/random_indices/', participants_list[p], sep="")
   random_trials_indices <- read.csv(random_trials_file_path)
   # Run 10 iterations. Each iteration is run with a different random selection of trials.
   for (i in iterations) {

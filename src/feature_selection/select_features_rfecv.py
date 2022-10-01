@@ -15,17 +15,17 @@ Takes two arguments:
 p: the participant code.
 rs: the random state value used for obtaining replicable results with randomisation.
 """
-def select_features_rfe(p, rs):
+def select_features_rfecv(p, rs):
     # Load data
     participant_data = pd.read_pickle(d + "/reports/extracted_features/ml/%s.pickle" % (p))
     participant_features = participant_data['objective']
-    rfe_results = pd.read_pickle(d + "/reports/feature_selection/rfe/%s.pickle" % (p))
-    rfe_results_iteration = rfe_results[rs]
+    rfecv_results = pd.read_pickle(d + "/reports/feature_selection/rfecv/%s.pickle" % (p))
+    rfecv_results_iteration = rfe_results[rs]
     # Which features are relevant for the selected participant?
-    # Build dict with names of selected features, as per RFE analysis
+    # Build dict with names of selected features, as per RFECV analysis
     features_names_dimensions = {}
     for dim in dimensions:
-        dimension_results = rfe_results_iteration[dim]
+        dimension_results = rfecv_results_iteration[dim]
         features_names = extract_selected_features_names(dimension_results)
         features_names_dimensions[dim] = features_names
 
@@ -53,10 +53,10 @@ def select_features_rfe(p, rs):
                 else:
                     continue
 
-    # Select trials that were not used in the RFE analysis. This is necessary to prevent double-dipping.
+    # Select trials that were not used in the RFECV analysis. This is necessary to prevent double-dipping.
     participant_ml_data = subset_trials_ml(p, selected_features, rs)
     return participant_ml_data
 
 
 if __name__ == "__main__":
-    select_features_rfe()
+    select_features_rfecv()

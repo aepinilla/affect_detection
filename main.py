@@ -19,12 +19,12 @@ def main():
         random_indices(p)
         extract_features(p)
         lme_structure(p)
-    # Analyse features using LME and RFE
+    # Analyse features using LME and RFECV
     analyse_features()
     # Build classification models with selected features
     for p in participants_codes:
         build_classifiers(p)
-    # Compare accuracy of classifiers built with features selected using each feature selection method.
+    # # Compare accuracy of classifiers built with features selected using each feature selection method.
     compare_methods()
     # Calculate participants' age for reporting in manuscript.
     participants_age()

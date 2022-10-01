@@ -47,24 +47,28 @@ def compare_methods():
     no_outliers = reshaped_data[~reshaped_data['participant'].isin(outliers)]
     no_outliers['mean_accuracy'] = no_outliers['mean_accuracy'] * 100
     no_outliers['approach'] = no_outliers['approach'].str.upper()
+
     # Assupmtions check
     # Shapiro-Wilk test of normal distribution
     results_shapiro = stats.shapiro(no_outliers['mean_accuracy'])
-    round(results_shapiro[0], 3)
-    round(results_shapiro[1], 3)
+    print('Shapiro-Wilk statistic: ' + round(results_shapiro[0], 3))
+    print('Shapiro-Wilk p-value: ' + round(results_shapiro[1], 3))
     # Sphericity
     # Mauchly's test of sphericity
     result_mauchly = pg.sphericity(no_outliers, dv='mean_accuracy', subject='participant', within=['approach', 'dimension'])
-    round(result_mauchly[2], 3)
-    round(result_mauchly[4], 3)
+    print('Mauchly test chi2: ' + round(result_mauchly[2], 3))
+    print('Mauchly test p-value: ' + round(result_mauchly[4], 3))
     # ANOVA
     # Perform two-way repeated m ANOVA
     two_way_aov = pg.rm_anova(dv='mean_accuracy', within=['approach', 'dimension'], subject='participant', data=no_outliers)
+    print('Results of two-way repeated measures ANOVA:')
     print(two_way_aov)
     # Main effect for dimension
     main_effect_dimension = pg.anova(dv='mean_accuracy', between='dimension', data=no_outliers, detailed=True)
+    print('Main effect of affect dimension:')
     print(main_effect_dimension)
     # Main effect for feature selection method
+    print('Main effect of feature selection method:')
     main_effect_approach = pg.anova(dv='mean_accuracy', between='approach', data=no_outliers, detailed=True)
     print(main_effect_approach)
     # Paired samples t-test
@@ -73,14 +77,17 @@ def compare_methods():
     ttest_dict = nested_dict()
     for dim in dimensions:
         dim_data = no_outliers.loc[no_outliers.dimension == dim]
-        dim_rfe = dim_data.loc[dim_data.approach == 'RFE'][['mean_accuracy']].values.flatten()
+        dim_rfecv = dim_data.loc[dim_data.approach == 'RFECV'][['mean_accuracy']].values.flatten()
         dim_lme = dim_data.loc[dim_data.approach == 'LME'][['mean_accuracy']].values.flatten()
-        res_dim_ttest = ttest(dim_rfe, dim_lme, paired=True).round(3)
+        res_dim_ttest = ttest(dim_rfecv, dim_lme, paired=True).round(3)
         ttest_dict[dim]['ttest_results'] = res_dim_ttest
         ttest_dict[dim]['means']['lme'] = dim_lme.mean().round(3)
-        ttest_dict[dim]['means']['rfe'] = dim_rfe.mean().round(3)
+        ttest_dict[dim]['means']['rfecv'] = dim_rfecv.mean().round(3)
         ttest_dict[dim]['std']['lme'] = dim_lme.std().round(3)
-        ttest_dict[dim]['std']['rfe'] = dim_rfe.std().round(3)
+        ttest_dict[dim]['std']['rfecv'] = dim_rfecv.std().round(3)
+
+    print('Results of pair-waise t-test (posthoc analysis):')
+    print(ttest_dict)
 
     # Plot
     sns.set_palette("Paired")
@@ -92,8 +99,6 @@ def compare_methods():
     sns.move_legend(g, "lower left")
     plt.savefig('../reports/figures/anova_results.png', dpi=300)
     plt.show()
-
-    return outliers
 
 
 if __name__ == "__main__":

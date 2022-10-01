@@ -17,7 +17,7 @@ def select_features_lme(p, rs):
     lme_results = get_lme_results(p)
     lme_results_iteration = lme_results.loc[lme_results['iteration'] == rs]
     # Which features are relevant for the selected participant?
-    # Build dict with names of selected features, as per RFE analysis
+    # Build dict with names of selected features, as per LME analysis
     features_names_dimensions = {}
     for dim in dimensions:
         dimension_mask = lme_results_iteration['dimension'].str.contains(dim)
@@ -53,7 +53,7 @@ def select_features_lme(p, rs):
                 else:
                     continue
 
-    # Select trials that were not used in the RFE analysis. This is necessary to prevent double-dipping.
+    # Select trials that were not used in the LME analysis. This is necessary to prevent double-dipping.
     participant_ml_data = subset_trials_ml(p, selected_features, rs)
     return participant_ml_data
 

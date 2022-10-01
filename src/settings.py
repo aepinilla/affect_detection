@@ -44,7 +44,7 @@ features_list = [
 ]
 
 # Approaches (methods) for feature selection
-feature_selection_approaches = ['lme', 'rfe']
+feature_selection_approaches = ['lme', 'rfecv']
 
 # Define sampling frequency
 fs = 128

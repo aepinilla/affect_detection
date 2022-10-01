@@ -9,7 +9,7 @@ from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 
-from src.feature_selection.select_features_rfe import select_features_rfe
+from src.feature_selection.select_features_rfecv import select_features_rfecv
 from src.feature_selection.select_features_lme import select_features_lme
 from src.settings import d, dimensions, feature_selection_approaches, random_states_list
 
@@ -18,8 +18,8 @@ def get_metrics(approach, p, rs):
     # Load dataset
     if approach == 'lme':
         participant_data = select_features_lme(p, rs)
-    if approach == 'rfe':
-        participant_data = select_features_rfe(p, rs)
+    if approach == 'rfecv':
+        participant_data = select_features_rfecv(p, rs)
 
     nested_dict = lambda: defaultdict(nested_dict)
     participant_metrics = nested_dict()
