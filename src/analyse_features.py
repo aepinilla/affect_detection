@@ -7,7 +7,7 @@ from src.feature_selection.conduct_lme import conduct_lme
 from src.feature_selection.conduct_rfecv import conduct_rfecv
 
 def analyse_features(p):
-    # conduct_lme(p)
+    conduct_lme(p)
     conduct_rfecv(p)
 
 if __name__ == "__main__":
