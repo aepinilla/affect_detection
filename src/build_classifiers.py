@@ -31,11 +31,11 @@ def get_metrics(approach, p, rs):
         # Split dataset into training set and test set
         X_train, X_test, y_train, y_test = train_test_split(features, labels, train_size=0.3, random_state=rs)
 
-        #Create a svm Classifier
+        # Initialize Random Forest Classifier
         clf = RandomForestClassifier()
-        #Train the model using the training sets
+        # Train the model
         clf.fit(X_train, y_train)
-        #Predict the response for test dataset
+        # Predict the response for test dataset
         y_pred = clf.predict(X_test)
 
         accuracy = metrics.accuracy_score(y_test, y_pred)

@@ -7,8 +7,6 @@ git clone git@github.com:aepinilla/affect_detection.git
 ```
 2. Download the 'data.zip' file from the OSF repository of the study: https://osf.io/7v9kt/
 3. Unzip data.zip and place it at the root of the folder you just cloned.
-4. Go to affect_detection/src/feature_selection/lme_models. Open the 3 R files located here.
-5. Edit the line 15 of each of those three R files, according to the path to your working directory.
 6. Using the terminal, go to the root of the 'affect_detection' folder and run the following command:
 ```
 python main.py

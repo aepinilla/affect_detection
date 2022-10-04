@@ -32,11 +32,13 @@ def select_features_lme(p, rs):
         relevant_features_dim = features_names_dimensions[dim]
         for t in trials:
             for f in relevant_features_dim:
+                # Features that are not RPSD or frontal asymmetry were extracted at each electrode site
                 if f not in ['relative_power_spectral_density', 'frontal_asymmetry']:
                     this_feature = dimension_features.loc[dimension_features['feature'] == f]
                     relevant_electrodes = this_feature['electrode'].unique()
                     for e in relevant_electrodes:
                         selected_features[dim][t][f][e] = participant_features[t][f][e]
+                # RPSD was extracted at each electrode site, and also at each power band
                 if f == 'relative_power_spectral_density':
                     this_feature = dimension_features.loc[dimension_features['feature'] == f]
                     relevant_bands = this_feature['band'].unique()
@@ -45,6 +47,7 @@ def select_features_lme(p, rs):
                         relevant_electrodes = this_band['electrode'].unique()
                         for e in relevant_electrodes:
                             selected_features[dim][t][f][b][e] = participant_features[t][f][b][e]
+                # Frontal asymmetry was extracted at each power band, only at the frontal region of the brain
                 if f == 'frontal_asymmetry':
                     this_feature = dimension_features.loc[dimension_features['feature'] == f]
                     relevant_bands = this_feature['band'].unique()

@@ -10,21 +10,10 @@ library(dplyr)
 library(lme4)
 library(arrow)
 
-#########################################
-# EDIT ACCORDING TO THE PATH WHERE YOU CLONED THE REPOSITORY
-root_directory <- "~/Documents/MATLAB/affect_detection/"
-#########################################
-
-working_directory <- paste(root_directory, 'reports/extracted_features/lme/base/', sep="")
-setwd(working_directory)
-
-# Create list of files
-participants_list <- list.files()
-len_participants_list <- seq(1, length(participants_list))
 
 # Define variables
-iterations <- seq(1, 10)
 dimensions <- list('negativity_rating', 'positivity_rating', 'net_predisposition_rating')
+iterations <- seq(1, 10)
 features <- list('spectral_envelope',
                  'zero_crossings',
                  'katz_fractal_dimension',
@@ -32,6 +21,7 @@ features <- list('spectral_envelope',
                  'hjorth_movility',
                  'hjorth_complexity',
                  'petrosian_fractal_dimension')
+
 
 
 # Full model function
@@ -79,19 +69,18 @@ select_data <- function(data, iteration_trials, dimension, electrode_site) {
 }
 
 
-"Run analysis on each participant:
-This technique aims to build user-dependent affect detection models.
-Consequently, feature selection should be conducted with the data of each
-participant."
-for (p in len_participants_list) {
-  print(paste('Analysing participant',p,sep = " "))
-  participant_data <- read.csv(participants_list[p])
-  participant_code <- substr(participants_list[p], 1,5)
+# Takes two arguments
+# p = participant code
+# d = path to main directory
+analyse_participant_lme <- function(p, d) {
+  print(paste('Analysing participant', p, sep = " "))
+  participant_file <- paste(d, '/reports/extracted_features/lme/base/', p, '.csv', sep="")
+  participant_data <- read.csv(participant_file)
   participant_results <- list()
   electrodes <- unique(participant_data$electrode)
   
   # Load random trials indices
-  random_trials_file_path <- paste(root_directory, 'reports/random_indices/', participants_list[p], sep="")
+  random_trials_file_path <- paste(d, '/reports/random_indices/', p, '.csv', sep="")
   random_trials_indices <- read.csv(random_trials_file_path)
   # Run 10 iterations. Each iteration is run with a different random selection of trials.
   for (i in iterations) {
@@ -103,30 +92,30 @@ for (p in len_participants_list) {
     Affective dimensions are conceptually independent constructs. Therefore, one
     model should be built for each dimension. Consequently, feature selection must
     be conducted independently for each dimension as well."
-    for (d in dimensions) {
-      print(paste('Analysing',d,sep = " "))
+    for (dim in dimensions) {
+      print(paste('Analysing', dim,sep = " "))
       "Run once on each electrode site"
       for (e in electrodes) {
-        subset_df <- select_data(participant_data, iteration_trials, d, e)
+        subset_df <- select_data(participant_data, iteration_trials, dim, e)
         for (f in features) {
-          print(paste('Analysing',f,'at electrode site',e,sep = " "))
+          print(paste('Analysing', f, 'at electrode site', e, sep = " "))
           # Build full model
-          full_model <- try(build_full_model(dimension = d, feature = f, df = subset_df))
+          full_model <- try(build_full_model(dimension = dim, feature = f, df = subset_df))
           # Build null model
-          null_model <- try(build_null_model(dimension = d, feature = f, df = subset_df))
+          null_model <- try(build_null_model(dimension = dim, feature = f, df = subset_df))
           # Check whether both models were built. In some cases, models cannot be built.
           # Some models cannot be built because 'Downdated VtV is not positive definite'".
           if ((class(null_model) == 'lmerMod')  & (class(full_model) == 'lmerMod')) {
             # ... conduct a likelihood-ratio test
             result <- anova(null_model, full_model)
             # assign participant code and feature name
-            result$participant <- participant_code
+            result$participant <- p
             result$iteration <- i
-            result$dimension <- d
+            result$dimension <- dim
             result$electrode <- e
             result$feature <- f
             # # Save the entire table with all the details
-            participant_results[[sprintf('%s_%s_%s_%s', i, d, e, f)]] <- result
+            participant_results[[sprintf('%s_%s_%s_%s', i, dim, e, f)]] <- result
             # Remove models before next iteration
             rm(full_model)
             rm(null_model)
@@ -136,7 +125,7 @@ for (p in len_participants_list) {
     }
     
     # Define the directory where results are going to be exported
-    export_path = paste(working_directory, participant_code, sep = "")
+    export_path = paste(d, '/reports/feature_selection/lme/base/', p, sep = "")
     
     # Export results in Feather format, which can be easily read as a Pandas dataframe in Python
     sapply(seq_along(1:length(participant_results)), 

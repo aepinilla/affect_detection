@@ -10,12 +10,13 @@ import pingouin as pg
 from pingouin import ttest
 import seaborn as sns
 from scipy import stats
+pd.options.mode.chained_assignment = None  # default='warn'
 
 from src.helper import conduct_iqr
 from src.settings import d, dimensions, feature_selection_approaches, participants_codes
 
 
-def compare_methods():
+def remove_outliers():
     all_participant_metrics = []
     for p in participants_codes:
         for fsa in feature_selection_approaches:
@@ -43,21 +44,26 @@ def compare_methods():
     # Reshape data
     reshaped_data = means_pp.melt(id_vars=['participant', 'approach'], var_name='dimension', value_name='mean_accuracy')
     # Remove outliers
-    outliers = list(conduct_iqr(reshaped_data))
-    no_outliers = reshaped_data[~reshaped_data['participant'].isin(outliers)]
+    outlier_participants = list(conduct_iqr(reshaped_data))
+    no_outliers = reshaped_data[~reshaped_data['participant'].isin(outlier_participants)]
     no_outliers['mean_accuracy'] = no_outliers['mean_accuracy'] * 100
     no_outliers['approach'] = no_outliers['approach'].str.upper()
 
+    return no_outliers, outlier_participants
+
+
+def compare_methods():
+    no_outliers, outlier_participants = remove_outliers()
     # Assupmtions check
     # Shapiro-Wilk test of normal distribution
     results_shapiro = stats.shapiro(no_outliers['mean_accuracy'])
-    print('Shapiro-Wilk statistic: ' + round(results_shapiro[0], 3))
-    print('Shapiro-Wilk p-value: ' + round(results_shapiro[1], 3))
+    print('Shapiro-Wilk statistic: ' + str(round(results_shapiro[0], 3)))
+    print('Shapiro-Wilk p-value: ' + str(round(results_shapiro[1], 3)))
     # Sphericity
     # Mauchly's test of sphericity
     result_mauchly = pg.sphericity(no_outliers, dv='mean_accuracy', subject='participant', within=['approach', 'dimension'])
-    print('Mauchly test chi2: ' + round(result_mauchly[2], 3))
-    print('Mauchly test p-value: ' + round(result_mauchly[4], 3))
+    print('Mauchly test chi2: ' + str(round(result_mauchly[2], 3)))
+    print('Mauchly test p-value: ' + str(round(result_mauchly[4], 3)))
     # ANOVA
     # Perform two-way repeated m ANOVA
     two_way_aov = pg.rm_anova(dv='mean_accuracy', within=['approach', 'dimension'], subject='participant', data=no_outliers)
@@ -97,8 +103,8 @@ def compare_methods():
     g.set_xticklabels(['Negativity', 'Positivity', 'Net Predisposition'])
     g.legend(title='Feature selection method')
     sns.move_legend(g, "lower left")
-    plt.savefig('../reports/figures/anova_results.png', dpi=300)
-    plt.show()
+    plt.savefig(d + '/reports/figures/anova_results.png', dpi=300)
+    # plt.show()
 
 
 if __name__ == "__main__":

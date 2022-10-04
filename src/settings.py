@@ -10,6 +10,7 @@ import os
 corrupted_data = ['Y8ZJQ', 'J7BUL', 'JB584']
 
 # Directory path
+# d = os.path.dirname(os.getcwd())
 d = os.path.dirname(os.getcwd()) + '/affect_detection'
 
 # Affective dimensions

@@ -23,7 +23,6 @@ def conduct_iqr(data):
     Q3 = data.quantile(0.75)
     IQR = Q3 - Q1
     # The code below removes responses that lie more than 1.5 times the IQR, above the 3rd quantile or below the 1st quantile.
-    # No responses fulfilled this criteria. Therefore, no responses were removed.
     outliers = data[((data < (Q1 - 1.5 * IQR)) | (data > (Q3 + 1.5 * IQR))).any(axis=1)]
     participants_outliers = outliers.participant.unique()
     return participants_outliers

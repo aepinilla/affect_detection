@@ -20,7 +20,7 @@ def select_features_rfecv(p, rs):
     participant_data = pd.read_pickle(d + "/reports/extracted_features/ml/%s.pickle" % (p))
     participant_features = participant_data['objective']
     rfecv_results = pd.read_pickle(d + "/reports/feature_selection/rfecv/%s.pickle" % (p))
-    rfecv_results_iteration = rfe_results[rs]
+    rfecv_results_iteration = rfecv_results[rs]
     # Which features are relevant for the selected participant?
     # Build dict with names of selected features, as per RFECV analysis
     features_names_dimensions = {}
@@ -36,16 +36,19 @@ def select_features_rfecv(p, rs):
         relevant_features_dim = list(features_names_dimensions[dim].keys())
         for t in trials:
             for f in relevant_features_dim:
+                # Features that are not RPSD or frontal asymmetry were extracted at each electrode site
                 if f not in ['relative_power_spectral_density', 'frontal_asymmetry']:
                     relevant_electrodes = flatten_list(features_names_dimensions[dim][f])
                     for e in relevant_electrodes:
                         selected_features[dim][t][f][e] = participant_features[t][f][e]
+                # RPSD was extracted at each electrode site, and also at each power band
                 if f == 'relative_power_spectral_density':
                     relevant_bands = features_names_dimensions[dim][f]
                     for b in relevant_bands:
                         relevant_electrodes = flatten_list(features_names_dimensions[dim][f][b])
                         for e in relevant_electrodes:
                             selected_features[dim][t][f][b][e] = participant_features[t][f][b][e]
+                # Frontal asymmetry was extracted at each power band, only at the frontal region of the brain
                 if f == 'frontal_asymmetry':
                     relevant_bands = flatten_list(features_names_dimensions[dim][f])
                     for b in relevant_bands:
