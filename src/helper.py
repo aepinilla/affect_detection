@@ -285,6 +285,14 @@ def start_idx(data):
     return start_idx
 
 
+def strings2means(row):
+    numbers = row.split()
+    floats = [float(number) for number in numbers]
+    array = np.array(floats)
+    mean = array.mean()
+    return mean
+
+
 def subset_trials_ml(p, selected_features, random_state):
     # Which trials will be used for training and testing the classification models?
     # These trials should be different from the trials that were used for the RFECV analysis

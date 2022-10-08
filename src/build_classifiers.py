@@ -7,6 +7,7 @@ from collections import defaultdict
 import pandas as pd
 from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import train_test_split
 
 from src.feature_selection.select_features_rfecv import select_features_rfecv
@@ -29,24 +30,29 @@ def get_metrics(approach, p, rs):
         labels = participant_data[dim]['labels']
 
         # Split dataset into training set and test set
-        X_train, X_test, y_train, y_test = train_test_split(features, labels, train_size=0.3, random_state=rs)
-
+        # X_train, X_test, y_train, y_test = train_test_split(features, labels, train_size=0.3, random_state=classifier_rs)
         # Initialize Random Forest Classifier
         clf = RandomForestClassifier()
+
         # Train the model
-        clf.fit(X_train, y_train)
+        # clf.fit(X_train, y_train)
         # Predict the response for test dataset
-        y_pred = clf.predict(X_test)
+        # y_pred = clf.predict(X_test)
+        # accuracy = metrics.accuracy_score(y_test, y_pred)
+        # precision = metrics.precision_score(y_test, y_pred)
+        # recall = metrics.recall_score(y_test, y_pred)
+        # f1_score = metrics.f1_score(y_test, y_pred)
 
-        accuracy = metrics.accuracy_score(y_test, y_pred)
-        precision = metrics.precision_score(y_test, y_pred)
-        recall = metrics.recall_score(y_test, y_pred)
-        f1_score = metrics.f1_score(y_test, y_pred)
+        # Calculate cross validated scores
+        accuracy_cv = cross_val_score(clf, features, labels, scoring='accuracy', cv=12)
+        precision_cv = cross_val_score(clf, features, labels, scoring='precision', cv=12)
+        recall_cv = cross_val_score(clf, features, labels, scoring='recall', cv=12)
+        f1_score_cv = cross_val_score(clf, features, labels, scoring='f1', cv=12)
 
-        participant_metrics[dim]['accuracy'] = accuracy
-        participant_metrics[dim]['precision'] = precision
-        participant_metrics[dim]['recall'] = recall
-        participant_metrics[dim]['f1_score'] = f1_score
+        participant_metrics[dim]['accuracy'] = accuracy_cv
+        participant_metrics[dim]['precision'] = precision_cv
+        participant_metrics[dim]['recall'] = recall_cv
+        participant_metrics[dim]['f1_score'] = f1_score_cv
 
     return participant_metrics
 

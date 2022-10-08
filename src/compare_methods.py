@@ -12,7 +12,7 @@ import seaborn as sns
 from scipy import stats
 pd.options.mode.chained_assignment = None  # default='warn'
 
-from src.helper import conduct_iqr
+from src.helper import conduct_iqr, strings2means
 from src.settings import d, dimensions, feature_selection_approaches, participants_codes
 
 
@@ -26,6 +26,12 @@ def remove_outliers():
             participant_metrics = participant_metrics.rename(columns = {'Unnamed: 0': 'random_state', 'Unnamed: 1': 'metric'})
             participant_metrics['participant'] = p
             participant_metrics['approach'] = fsa
+
+            for dim in dimensions:
+                dim_metrics = participant_metrics[dim]
+                means_dimension = dim_metrics.apply(lambda row: strings2means(row[1:-1]))
+                participant_metrics[dim] = means_dimension
+
             all_participant_metrics.append(participant_metrics)
 
     all_metrics_df = pd.concat(all_participant_metrics)
@@ -78,22 +84,32 @@ def compare_methods():
     main_effect_approach = pg.anova(dv='mean_accuracy', between='approach', data=no_outliers, detailed=True)
     print(main_effect_approach)
     # Paired samples t-test
-
     nested_dict = lambda: defaultdict(nested_dict)
-    ttest_dict = nested_dict()
+    posthoc_results = nested_dict()
     for dim in dimensions:
         dim_data = no_outliers.loc[no_outliers.dimension == dim]
         dim_rfecv = dim_data.loc[dim_data.approach == 'RFECV'][['mean_accuracy']].values.flatten()
         dim_lme = dim_data.loc[dim_data.approach == 'LME'][['mean_accuracy']].values.flatten()
         res_dim_ttest = ttest(dim_rfecv, dim_lme, paired=True).round(3)
-        ttest_dict[dim]['ttest_results'] = res_dim_ttest
-        ttest_dict[dim]['means']['lme'] = dim_lme.mean().round(3)
-        ttest_dict[dim]['means']['rfecv'] = dim_rfecv.mean().round(3)
-        ttest_dict[dim]['std']['lme'] = dim_lme.std().round(3)
-        ttest_dict[dim]['std']['rfecv'] = dim_rfecv.std().round(3)
+        posthoc_results[dim]['ttest_results'] = res_dim_ttest.copy()
+        posthoc_results[dim]['mean_lme'] = dim_lme.mean().round(3)
+        posthoc_results[dim]['mean_rfecv'] = dim_rfecv.mean().round(3)
+        posthoc_results[dim]['std_lme'] = dim_lme.std().round(3)
+        posthoc_results[dim]['std_rfecv'] = dim_rfecv.std().round(3)
 
     print('Results of pair-waise t-test (posthoc analysis):')
-    print(ttest_dict)
+    for dim in dimensions:
+        print('Results for dimension: ' + dim)
+        print('T-test:')
+        print(posthoc_results[dim]['ttest_results'])
+        print('Mean LME: ')
+        print(posthoc_results[dim]['mean_lme'])
+        print('Mean RFECV: ')
+        print(posthoc_results[dim]['mean_rfecv'])
+        print('STD LME: ')
+        print(posthoc_results[dim]['std_lme'])
+        print('STD RFECV: ')
+        print(posthoc_results[dim]['std_rfecv'])
 
     # Plot
     sns.set_palette("Paired")
@@ -103,8 +119,9 @@ def compare_methods():
     g.set_xticklabels(['Negativity', 'Positivity', 'Net Predisposition'])
     g.legend(title='Feature selection method')
     sns.move_legend(g, "lower left")
+    g.yaxis.set_major_formatter('{x:1.0f}%')
     plt.savefig(d + '/reports/figures/anova_results.png', dpi=300)
-    # plt.show()
+    plt.show()
 
 
 if __name__ == "__main__":
