@@ -62,11 +62,11 @@ len_epoch = (epoch_len * fs) - 1
 # List of participant's codes
 participants_codes = [
                      '3I6EY',
-                     '6HARB', # Outlier
+                     '6HARB',
                      'AY9SI',
-                     'DODE8', # Outlier
-                     'GLJO8', # Outlier
-                     'GNIE1', # Outlier
+                     'DODE8',
+                     'GLJO8',
+                     'GNIE1',
                      # 'J7BUL',# Corrupted data
                      # 'JB584',# Corrupted data
                      'KNY2Z',
@@ -83,7 +83,7 @@ participants_codes = [
                      'UVBY3',
                      'VHY9N',
                       # 'Y8ZJQ', #Corrupted data
-                      'YOO7M' # Outlier
+                      'YOO7M'
                       ]
 
 # List of values used for random state (for replicable results)

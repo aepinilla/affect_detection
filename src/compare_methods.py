@@ -6,6 +6,7 @@ Institution: Quality and Usability Lab, TU Berlin & UTS Games Studio, University
 from collections import defaultdict
 import matplotlib.pyplot as plt
 import pandas as pd
+import pickle
 import pingouin as pg
 from pingouin import ttest
 import seaborn as sns
@@ -60,32 +61,43 @@ def remove_outliers():
 
 def compare_methods():
     no_outliers, outlier_participants = remove_outliers()
+    results_dict = {}
     # Assupmtions check
     # Shapiro-Wilk test of normal distribution
     results_shapiro = stats.shapiro(no_outliers['mean_accuracy'])
-    print('Shapiro-Wilk statistic: ' + str(round(results_shapiro[0], 3)))
-    print('Shapiro-Wilk p-value: ' + str(round(results_shapiro[1], 3)))
+    results_dict['shapiro-statistic'] = round(results_shapiro[0], 3)
+    results_dict['shapiro-p'] = round(results_shapiro[1], 3)
+    # print('Shapiro-Wilk statistic: ' + str(round(results_shapiro[0], 3)))
+    # print('Shapiro-Wilk p-value: ' + str(round(results_shapiro[1], 3)))
     # Sphericity
     # Mauchly's test of sphericity
     result_mauchly = pg.sphericity(no_outliers, dv='mean_accuracy', subject='participant', within=['approach', 'dimension'])
-    print('Mauchly test chi2: ' + str(round(result_mauchly[2], 3)))
-    print('Mauchly test p-value: ' + str(round(result_mauchly[4], 3)))
+    results_dict['mauchly-chi2'] = round(result_mauchly[2], 3)
+    results_dict['mauchly-p'] = round(result_mauchly[4], 3)
+    # print('Mauchly test chi2: ' + str(round(result_mauchly[2], 3)))
+    # print('Mauchly test p-value: ' + str(round(result_mauchly[4], 3)))
     # ANOVA
     # Perform two-way repeated m ANOVA
     two_way_aov = pg.rm_anova(dv='mean_accuracy', within=['approach', 'dimension'], subject='participant', data=no_outliers)
-    print('Results of two-way repeated measures ANOVA:')
-    print(two_way_aov)
+    results_dict['two_way_aov'] = two_way_aov
+    # print('Results of two-way repeated measures ANOVA:')
+    # print(two_way_aov)
     # Main effect for dimension
     main_effect_dimension = pg.anova(dv='mean_accuracy', between='dimension', data=no_outliers, detailed=True)
-    print('Main effect of affect dimension:')
-    print(main_effect_dimension)
+    results_dict['main_effect_dimension'] = main_effect_dimension
+    # print('Main effect of affect dimension:')
+    # print(main_effect_dimension)
     # Main effect for feature selection method
-    print('Main effect of feature selection method:')
     main_effect_approach = pg.anova(dv='mean_accuracy', between='approach', data=no_outliers, detailed=True)
-    print(main_effect_approach)
+    results_dict['main_effect_approach'] = main_effect_approach
+    # print('Main effect of feature selection method:')
+    # print(main_effect_approach)
     # Paired samples t-test
-    nested_dict = lambda: defaultdict(nested_dict)
-    posthoc_results = nested_dict()
+    posthoc_results = {
+        'negativity' : dict(),
+        'positivity': dict(),
+        'net_predisposition': dict()
+    }
     for dim in dimensions:
         dim_data = no_outliers.loc[no_outliers.dimension == dim]
         dim_rfecv = dim_data.loc[dim_data.approach == 'RFECV'][['mean_accuracy']].values.flatten()
@@ -97,21 +109,27 @@ def compare_methods():
         posthoc_results[dim]['std_lme'] = dim_lme.std().round(3)
         posthoc_results[dim]['std_rfecv'] = dim_rfecv.std().round(3)
 
-    print('Results of pair-waise t-test (posthoc analysis):')
-    for dim in dimensions:
-        print('Results for dimension: ' + dim)
-        print('T-test:')
-        print(posthoc_results[dim]['ttest_results'])
-        print('Mean LME: ')
-        print(posthoc_results[dim]['mean_lme'])
-        print('Mean RFECV: ')
-        print(posthoc_results[dim]['mean_rfecv'])
-        print('STD LME: ')
-        print(posthoc_results[dim]['std_lme'])
-        print('STD RFECV: ')
-        print(posthoc_results[dim]['std_rfecv'])
+    results_dict['posthoc'] = posthoc_results
+    results_file_name = d + '/reports/results.pickle'
+    with open(results_file_name, 'wb') as handle:
+        pickle.dump(results_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+    # print('Results of pair-waise t-test (posthoc analysis):')
+    # for dim in dimensions:
+    #     print('Results for dimension: ' + dim)
+    #     print('T-test:')
+    #     print(posthoc_results[dim]['ttest_results'])
+    #     print('Mean LME: ')
+    #     print(posthoc_results[dim]['mean_lme'])
+    #     print('Mean RFECV: ')
+    #     print(posthoc_results[dim]['mean_rfecv'])
+    #     print('STD LME: ')
+    #     print(posthoc_results[dim]['std_lme'])
+    #     print('STD RFECV: ')
+    #     print(posthoc_results[dim]['std_rfecv'])
 
     # Plot
+
     sns.set_palette("Paired")
     sns.set_style("whitegrid")
     g = sns.barplot(data=no_outliers, x="dimension", y="mean_accuracy", hue='approach')
@@ -121,7 +139,7 @@ def compare_methods():
     sns.move_legend(g, "lower left")
     g.yaxis.set_major_formatter('{x:1.0f}%')
     plt.savefig(d + '/reports/figures/anova_results.png', dpi=300)
-    plt.show()
+    # plt.show()
 
 
 if __name__ == "__main__":

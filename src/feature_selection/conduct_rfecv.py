@@ -25,17 +25,14 @@ def conduct_rfecv(p):
         # Select features for each dimension
         rfecv_features = {}
         for dim in dimensions:
-            print('Selecting features for ' + dim + ' dimension')
+            print('Selecting features for the ' + dim + ' dimension')
             dim_data = rfecv_data[dim]
             features = dim_data['features']
             labels = dim_data['labels']
-            # Split in training and testing set
-            x_train, x_test, y_train, y_test = train_test_split(features, labels, train_size=0.3, random_state=i)
-            # Run Recursive Feature Elimination with Cross Validation
             estimator = RandomForestClassifier()
-            rfecv = RFECV(estimator=estimator, step=5, scoring='accuracy')   #5-fold cross-validation
-            rfecv = rfecv.fit(x_train, np.ravel(y_train, order='C'))
-            rfecv_features[dim] = x_train.columns[rfecv.support_]
+            selector = RFECV(estimator=estimator, scoring='accuracy', cv=4, step=5)
+            selector = selector.fit(features, np.ravel(labels))
+            rfecv_features[dim] = features.columns[selector.support_]
 
         rfecv_all_trials[i] = rfecv_features
 
