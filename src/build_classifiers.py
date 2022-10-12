@@ -69,7 +69,6 @@ def build_classifiers(p):
             participant_metrics_dict[rs] = pd.DataFrame.from_dict(get_metrics(approach, p, rs))
 
         participant_metrics_df = pd.concat(participant_metrics_dict)
-        # return participant_metrics_df
         participant_metrics_df.to_csv(d + '/reports/metrics/%s/' % (approach) + p + '.csv')
 
 
