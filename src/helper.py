@@ -14,7 +14,7 @@ from os.path import isfile, join
 from scipy import signal
 from scipy.integrate import simps
 
-from src.settings import d, dimensions, feature_groups, fs_dataset_ratio, participants_codes, trials, video_ids
+from src.settings import d, corrupted_participants, dimensions, feature_selection_approaches, feature_groups, fs_dataset_ratio, participants_codes, trials, video_ids
 
 
 def conduct_iqr(data):
@@ -93,7 +93,7 @@ def get_lme_results(p):
 
 
 def get_rfecv_data(i, participant_features, p):
-    print('RFECV iteration ' + str(i))
+    # print('RFECV iteration ' + str(i))
     # Which trials will be used for Recursive Feature Elimination?
     # These trials should be different from the trials that will be used for training the model
     # Initialize nested dictionary
@@ -234,6 +234,39 @@ def relative_psd_ts(x, fs, window, eeg_range):
     relative_band_psd_ts = 100 * (band_psd / total_psd)
 
     return relative_band_psd_ts
+
+
+def remove_outliers():
+    all_participant_metrics = []
+    for p in participants_codes:
+        for fsa in feature_selection_approaches:
+            file_path = (d + '/reports/metrics/%s/' % (fsa)) + p + '.csv'
+            participant_metrics = pd.read_csv(file_path)
+            participant_metrics = participant_metrics.reset_index(drop=['index'])
+            participant_metrics = participant_metrics.rename(columns = {'Unnamed: 0': 'random_state', 'Unnamed: 1': 'metric'})
+            participant_metrics['participant'] = p
+            participant_metrics['approach'] = fsa
+            for dim in dimensions:
+                dim_metrics = participant_metrics[dim]
+                means_dimension = dim_metrics.apply(lambda row: strings2means(row[1:-1]))
+                participant_metrics[dim] = means_dimension
+
+            all_participant_metrics.append(participant_metrics)
+    all_metrics_df = pd.concat(all_participant_metrics)
+    # Subset accuracy
+    accuracy = all_metrics_df.loc[all_metrics_df['metric'] == 'accuracy']
+    # Participant means
+    means_pp = accuracy.groupby(['participant', 'approach']).mean()
+    means_pp = means_pp.reset_index().drop(['random_state'], axis=1)
+    # Reshape data
+    reshaped_data = means_pp.melt(id_vars=['participant', 'approach'], var_name='dimension', value_name='mean_accuracy')
+    # Remove outliers
+    outlier_participants = list(conduct_iqr(reshaped_data))
+    no_outliers = reshaped_data[~reshaped_data['participant'].isin(outlier_participants)]
+    no_outliers['mean_accuracy'] = no_outliers['mean_accuracy'] * 100
+    no_outliers['approach'] = no_outliers['approach'].str.upper()
+
+    return all_metrics_df, no_outliers, outlier_participants
 
 
 def self_reports():

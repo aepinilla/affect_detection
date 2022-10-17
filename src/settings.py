@@ -7,7 +7,7 @@ import os
 
 
 # Participants with corrupted data
-corrupted_data = ['Y8ZJQ', 'J7BUL', 'JB584']
+corrupted_participants = ['Y8ZJQ', 'J7BUL', 'JB584']
 
 # Directory path
 # d = os.path.dirname(os.getcwd())

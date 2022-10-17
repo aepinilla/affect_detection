@@ -13,55 +13,25 @@ import seaborn as sns
 from scipy import stats
 pd.options.mode.chained_assignment = None  # default='warn'
 
-from src.helper import conduct_iqr, strings2means
-from src.settings import d, dimensions, feature_selection_approaches, participants_codes
+from src.helper import remove_outliers
+from src.participants_age import participants_age
+from src.settings import d, corrupted_participants, dimensions, feature_selection_approaches, participants_codes
 
 
-def remove_outliers():
-    all_participant_metrics = []
-    for p in participants_codes:
-        for fsa in feature_selection_approaches:
-            file_path = (d + '/reports/metrics/%s/' % (fsa)) + p + '.csv'
-            participant_metrics = pd.read_csv(file_path)
-            participant_metrics = participant_metrics.reset_index(drop=['index'])
-            participant_metrics = participant_metrics.rename(columns = {'Unnamed: 0': 'random_state', 'Unnamed: 1': 'metric'})
-            participant_metrics['participant'] = p
-            participant_metrics['approach'] = fsa
+def compare_methods():
+    all_metrics_df, no_outliers, outlier_participants = remove_outliers()
+    # Calculate participant's age
+    participants_age(outlier_participants)
+    results_dict = {}
 
-            for dim in dimensions:
-                dim_metrics = participant_metrics[dim]
-                means_dimension = dim_metrics.apply(lambda row: strings2means(row[1:-1]))
-                participant_metrics[dim] = means_dimension
-
-            all_participant_metrics.append(participant_metrics)
-
-    all_metrics_df = pd.concat(all_participant_metrics)
     # Precision, recall and F1-score
     all_means = all_metrics_df.groupby(['participant', 'approach', 'metric']).mean()
     all_means = all_means.drop(['random_state'], axis=1)
     all_means_of_means = all_means.groupby(['approach', 'metric']).mean()
     all_std_of_means = all_means.groupby(['approach', 'metric']).std()
-    print(round(all_means_of_means * 100, 4))
-    print(round(all_std_of_means * 100, 3))
-    # Subset accuracy
-    accuracy = all_metrics_df.loc[all_metrics_df['metric'] == 'accuracy']
-    # Participant means
-    means_pp = accuracy.groupby(['participant', 'approach']).mean()
-    means_pp = means_pp.reset_index().drop(['random_state'], axis=1)
-    # Reshape data
-    reshaped_data = means_pp.melt(id_vars=['participant', 'approach'], var_name='dimension', value_name='mean_accuracy')
-    # Remove outliers
-    outlier_participants = list(conduct_iqr(reshaped_data))
-    no_outliers = reshaped_data[~reshaped_data['participant'].isin(outlier_participants)]
-    no_outliers['mean_accuracy'] = no_outliers['mean_accuracy'] * 100
-    no_outliers['approach'] = no_outliers['approach'].str.upper()
+    results_dict['all_means_of_means'] = all_means_of_means
+    results_dict['all_std_of_means'] = all_std_of_means
 
-    return no_outliers, outlier_participants
-
-
-def compare_methods():
-    no_outliers, outlier_participants = remove_outliers()
-    results_dict = {}
     # Assupmtions check
     # Shapiro-Wilk test of normal distribution
     results_shapiro = stats.shapiro(no_outliers['mean_accuracy'])
@@ -135,11 +105,11 @@ def compare_methods():
     g = sns.barplot(data=no_outliers, x="dimension", y="mean_accuracy", hue='approach')
     g.set(xlabel='Affective dimension', ylabel='Mean accuracy of classification models')
     g.set_xticklabels(['Negativity', 'Positivity', 'Net Predisposition'])
+    g.set_yticklabels(['0%', '20%', '40%', '60%', '80%', '100%'])
     g.legend(title='Feature selection method')
     sns.move_legend(g, "lower left")
-    g.yaxis.set_major_formatter('{x:1.0f}%')
     plt.savefig(d + '/reports/figures/anova_results.png', dpi=300)
-    # plt.show()
+    plt.show()
 
 
 if __name__ == "__main__":

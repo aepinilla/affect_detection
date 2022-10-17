@@ -25,7 +25,7 @@ def get_metrics(approach, p, rs):
     nested_dict = lambda: defaultdict(nested_dict)
     participant_metrics = nested_dict()
     for dim in dimensions:
-        print('Building classifier for ' + dim)
+        # print('Building classifier for ' + dim)
         features = participant_data[dim]['features']
         labels = participant_data[dim]['labels']
 
@@ -59,15 +59,12 @@ def get_metrics(approach, p, rs):
 
 def build_classifiers(p):
     # Build classifiers with each feature selection approach
-    print('Building classifiers for participant ' + p)
     for approach in feature_selection_approaches:
-        print('Using features obtained with ' + approach + ' analysis')
         # Build dict with each random state (10 different random states)
         participant_metrics_dict = {}
         for rs in random_states_list:
-            print('Using random state ' + str(rs))
+            print('Building classification models for participant ' + p + ' - Using ' + approach + ' features - Iteration ' + str(rs))
             participant_metrics_dict[rs] = pd.DataFrame.from_dict(get_metrics(approach, p, rs))
-
         participant_metrics_df = pd.concat(participant_metrics_dict)
         participant_metrics_df.to_csv(d + '/reports/metrics/%s/' % (approach) + p + '.csv')
 

@@ -10,7 +10,6 @@ library(dplyr)
 library(lme4)
 library(arrow)
 
-
 # Define variables
 dimensions <- list('negativity_rating', 'positivity_rating', 'net_predisposition_rating')
 iterations <- seq(1, 10)
@@ -73,7 +72,7 @@ select_data <- function(data, iteration_trials, dimension, electrode_site) {
 # p = participant code
 # d = path to main directory
 analyse_participant_lme <- function(p, d) {
-  print(paste('Analysing participant', p, sep = " "))
+#   print(paste('Analysing participant', p, sep = " "))
   participant_file <- paste(d, '/reports/extracted_features/lme/base/', p, '.csv', sep="")
   participant_data <- read.csv(participant_file)
   participant_results <- list()
@@ -84,7 +83,7 @@ analyse_participant_lme <- function(p, d) {
   random_trials_indices <- read.csv(random_trials_file_path)
   # Run 10 iterations. Each iteration is run with a different random selection of trials.
   for (i in iterations) {
-    print(paste('Running iteration', i, sep = " "))
+    print(paste('Using LME for selecting features extracted from participant', p, ', iteration', i, sep = " "))
     iteration_trials <- random_trials_indices %>%
       filter(iteration == i)
     
@@ -93,12 +92,12 @@ analyse_participant_lme <- function(p, d) {
     model should be built for each dimension. Consequently, feature selection must
     be conducted independently for each dimension as well."
     for (dim in dimensions) {
-      print(paste('Analysing', dim,sep = " "))
+#       print(paste('Analysing', dim,sep = " "))
       "Run once on each electrode site"
       for (e in electrodes) {
         subset_df <- select_data(participant_data, iteration_trials, dim, e)
         for (f in features) {
-          print(paste('Analysing', f, 'at electrode site', e, sep = " "))
+#           print(paste('Analysing', f, 'at electrode site', e, sep = " "))
           # Build full model
           full_model <- try(build_full_model(dimension = dim, feature = f, df = subset_df))
           # Build null model
@@ -133,4 +132,3 @@ analyse_participant_lme <- function(p, d) {
                                      paste(export_path,"_base_",i,'_',n,".feather", sep = "")))
   }
 }
-

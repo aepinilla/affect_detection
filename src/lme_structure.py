@@ -11,7 +11,7 @@ from src.settings import d, eeg_bands, features_list, trials
 
 
 def lme_structure(p):
-    print('Creating files with LME structure for participant ' + p)
+    # print('Creating files with LME structure for participant ' + p)
     participant_file = pd.read_pickle(d + '/reports/extracted_features/ml/' + p + '.pickle')
     features = participant_file['objective']
 

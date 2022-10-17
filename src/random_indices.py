@@ -18,7 +18,7 @@ from src.helper import get_split_indices, self_reports
 
 
 def random_indices(p):
-    print('Generating indices for random trial selection of participant ' + p)
+    # print('Generating indices for random trial selection of participant ' + p)
     all_self_reports = self_reports()
     participant_self_reports = all_self_reports.loc[all_self_reports.participant == p]
 

@@ -10,7 +10,6 @@ library(dplyr)
 library(lme4)
 library(arrow)
 
-
 # Define variables
 iterations <- seq(1, 10)
 dimensions <- list('negativity_rating', 'positivity_rating', 'net_predisposition_rating')
@@ -20,22 +19,22 @@ bands <- list('delta', 'theta', 'alpha', 'beta', 'gamma')
 
 # Full model function
 build_full_model <- function(dimension, feature, df) {
-  dimension.model = lmer(get(dimension) ~ get(feature) + ts +
+  dimension.model = suppressMessages(lmer(get(dimension) ~ get(feature) + ts +
                            (1+get(feature)|video_id),
                          REML=FALSE,
                          data = df,
-                         control = lmerControl(calc.derivs = FALSE))
+                         control = lmerControl(calc.derivs = FALSE)))
   return (dimension.model)
 }
 
 
 # Null model function
 build_null_model <- function(dimension, feature, df) {
-  dimension.null = lmer(get(dimension) ~ ts +
+  dimension.null = suppressMessages(lmer(get(dimension) ~ ts +
                           (1+get(feature)|video_id),
                         REML=FALSE,
                         data = df,
-                        control = lmerControl(calc.derivs = FALSE))
+                        control = lmerControl(calc.derivs = FALSE)))
   return (dimension.null)
 }
 
@@ -66,7 +65,7 @@ select_data <- function(data, iteration_trials, dimension, power_band) {
 # p = participant code
 # d = path to main directory
 analyse_participant_lme <- function(p, d) {
-  print(paste('Analysing participant', p, sep = " "))
+#   print(paste('Analysing participant', p, sep = " "))
   participant_file <- paste(d, '/reports/extracted_features/lme/fa/', p, '.csv', sep="")
   participant_data <- read.csv(participant_file)
   participant_results <- list()
@@ -77,7 +76,7 @@ analyse_participant_lme <- function(p, d) {
 
   # Run 10 iterations. Each iteration is run with a different random selection of trials.
   for (i in iterations) {
-    print(paste('Running iteration', i, sep = " "))
+    print(paste('Using LME for selecting features extracted from participant', p, ', iteration', i, sep = " "))
     iteration_trials <- random_trials_indices %>%
       filter(iteration == i)
     
@@ -86,14 +85,14 @@ analyse_participant_lme <- function(p, d) {
     model should be built for each dimension. Consequently, feature selection must
     be conducted independently for each dimension as well."
     for (dim in dimensions) {
-      print(paste('Analysing', dim, sep = " "))
+#       print(paste('Analysing', dim, sep = " "))
       "Run once on each power band:
       Analysing each power band separately helps to avoid biased results as a
       consequence of mingling the activity of one power band with another"
       for (b in bands) {
         subset_df <- select_data(participant_data, iteration_trials, dim, b)
         for (f in features) {
-          print(paste('Analysing', f, 'at', b, 'power band',sep = " "))
+#           print(paste('Analysing', f, 'at', b, 'power band',sep = " "))
           # Build full model
           full_model <- try(build_full_model(dimension = dim, feature = f, df = subset_df))
           # Build null model

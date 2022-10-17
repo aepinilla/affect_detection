@@ -15,12 +15,12 @@ from src.settings import d, dimensions, participants_codes, random_states_list
 
 
 def conduct_rfecv(p):
-    print('Conducting RFECV for participant ' + p)
     # Load data
     participant_data = pd.read_pickle(d + "/reports/extracted_features/ml/%s.pickle" % (p))
     participant_features = participant_data['objective']
     rfecv_all_trials = {}
     for i in random_states_list:
+        print('Using RFECV for selecting features extracted from participant ' + p + ', iteration ' + str(i))
         rfecv_data = get_rfecv_data(i, participant_features, p)
         # Select features for each dimension
         rfecv_features = {}

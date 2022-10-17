@@ -31,7 +31,7 @@ from src.settings import d, eeg_bands, len_epoch, sliding_window_size, trials, f
 
 
 def extract_features(p):
-    print("Reading participant %s..." % (p))
+    print("Extracting features of participant " + p)
     preprocessed_file_name = (d + '/data/objective/preprocessed/eeg/%s_eeg.csv' % (p))
     eeg_data = pd.read_csv(preprocessed_file_name)
     electrode_sites = eeg_data.columns[1:].values.tolist()
@@ -39,7 +39,7 @@ def extract_features(p):
     all_trials = {}
     # Extract features for each video trial
     for t in trials:
-        print("processing video %s..." % (t))
+        # print("processing video %s..." % (t))
         eeg_data_video = eeg_data.iloc[epochs_start_mark.index[t]:epochs_start_mark.index[t]+len_epoch,:]
         eeg_data_video_dict = {channel: eeg_data_video[channel] for channel in electrode_sites}
         # Spectral envelope
@@ -62,7 +62,7 @@ def extract_features(p):
         rpsd_bands = {}
         fa_bands = {}
         for band, eeg_range in eeg_bands.items():
-            print('Processing %s band' % (band))
+            # print('Processing %s band' % (band))
             # Relative Power Spectral Density
             rpsd = {channel: relative_psd_ts(sliding_window_view(eeg_data_video_dict[channel], sliding_window_size), fs, welch_window_size, eeg_range) for channel in electrode_sites}
             rpsd_bands[band] = rpsd
