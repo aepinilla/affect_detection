@@ -25,12 +25,13 @@ def compare_methods():
     results_dict = {}
 
     # Precision, recall and F1-score
-    all_means = all_metrics_df.groupby(['participant', 'approach', 'metric']).mean()
+    all_metrics_df_non_outliers = all_metrics_df[~all_metrics_df['participant'].isin(outlier_participants)]
+    all_means = all_metrics_df_non_outliers.groupby(['participant', 'approach', 'metric']).mean()
     all_means = all_means.drop(['random_state'], axis=1)
     all_means_of_means = all_means.groupby(['approach', 'metric']).mean()
     all_std_of_means = all_means.groupby(['approach', 'metric']).std()
-    results_dict['all_means_of_means'] = all_means_of_means
-    results_dict['all_std_of_means'] = all_std_of_means
+    results_dict['all_means_of_means'] = round((all_means_of_means * 100), 2)
+    results_dict['all_std_of_means'] = round((all_std_of_means * 100), 2)
 
     # Assupmtions check
     # Shapiro-Wilk test of normal distribution
@@ -74,31 +75,16 @@ def compare_methods():
         dim_lme = dim_data.loc[dim_data.approach == 'LME'][['mean_accuracy']].values.flatten()
         res_dim_ttest = ttest(dim_rfecv, dim_lme, paired=True).round(3)
         posthoc_results[dim]['ttest_results'] = res_dim_ttest.copy()
-        posthoc_results[dim]['mean_lme'] = dim_lme.mean().round(3)
-        posthoc_results[dim]['mean_rfecv'] = dim_rfecv.mean().round(3)
-        posthoc_results[dim]['std_lme'] = dim_lme.std().round(3)
-        posthoc_results[dim]['std_rfecv'] = dim_rfecv.std().round(3)
+        posthoc_results[dim]['mean_lme'] = dim_lme.mean().round(2)
+        posthoc_results[dim]['mean_rfecv'] = dim_rfecv.mean().round(2)
+        posthoc_results[dim]['std_lme'] = dim_lme.std().round(2)
+        posthoc_results[dim]['std_rfecv'] = dim_rfecv.std().round(2)
 
     results_dict['posthoc'] = posthoc_results
     results_file_name = d + '/reports/results.pickle'
     with open(results_file_name, 'wb') as handle:
         pickle.dump(results_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    # print('Results of pair-waise t-test (posthoc analysis):')
-    # for dim in dimensions:
-    #     print('Results for dimension: ' + dim)
-    #     print('T-test:')
-    #     print(posthoc_results[dim]['ttest_results'])
-    #     print('Mean LME: ')
-    #     print(posthoc_results[dim]['mean_lme'])
-    #     print('Mean RFECV: ')
-    #     print(posthoc_results[dim]['mean_rfecv'])
-    #     print('STD LME: ')
-    #     print(posthoc_results[dim]['std_lme'])
-    #     print('STD RFECV: ')
-    #     print(posthoc_results[dim]['std_rfecv'])
-
-    # Plot
 
     sns.set_palette("Paired")
     sns.set_style("whitegrid")
