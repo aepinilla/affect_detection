@@ -7,13 +7,11 @@ from src.random_indices import random_indices
 
 
 def process_data(p):
-    # random_indices(p)
-    # extract_features(p)
-    # lme_structure(p)
-    # analyse_features(p)
-    # build_classifiers(p)
-
-    analyse_emg(p)
+    random_indices(p)
+    extract_features(p)
+    lme_structure(p)
+    analyse_features(p)
+    build_classifiers(p)
 
 
 if __name__ == '__main__':

@@ -59,6 +59,19 @@ fs_dataset_ratio, model_dataset_ratio = .3, .7
 epoch_len = 60
 len_epoch = (epoch_len * fs) - 1
 
+# Markers used during the experiment
+markers_dict = {
+    'start_practice_block': 0,
+    'end_practice_block': 1,
+    'start_baseline': 2,
+    'end_baseline': 3,
+    'start_exp_task': 4,
+    'end_exp_task': 5,
+    'cross': 6,
+    'start_video': 7,
+    'end_video': 8
+    }
+
 # List of participant's codes
 participants_codes = [
                      '3I6EY',
