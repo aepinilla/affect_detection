@@ -1,6 +1,7 @@
 data/
 archive/
 reports/random_indices/
+reports/logs/
 reports/metrics/lme/
 reports/metrics/rfecv/
 reports/feature_selection/lme/

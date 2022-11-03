@@ -98,11 +98,17 @@ analyse_participant_lme <- function(p, d) {
         for (b in bands) {
           subset_df <- select_data(participant_data, iteration_trials, dim, e, b)
           for (f in features) {
-#             print(paste('Analysing',f,'at electrode site',e,'at',b,'power band',sep = " "))
+            # Write log files with warning messages from LME4 package
+            log_file_name = paste('reports/logs/rpsd/',p, '_', 'iteration', i, '_', dim, '_', e, '_', b, '_', f, '.log', sep="")
+            participant_log <- file(log_file_name, open="wt")
+            sink(participant_log, type="message")
             # Build full model
             full_model <- try(build_full_model(dimension=dim, feature=f, df = subset_df))
             # Build null model
             null_model <- try(build_null_model(dimension=dim, feature=f, df = subset_df))
+            # Reset message sink and close log file
+            sink(type="message")
+            close(participant_log)
             # Check whether both models were built. In some cases, models cannot be built.
             # Some models cannot be built because 'Downdated VtV is not positive definite'".
             if ((class(null_model) == 'lmerMod')  & (class(full_model) == 'lmerMod')) {

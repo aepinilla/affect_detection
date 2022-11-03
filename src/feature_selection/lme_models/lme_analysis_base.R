@@ -22,25 +22,32 @@ features <- list('spectral_envelope',
                  'petrosian_fractal_dimension')
 
 
-
 # Full model function
 build_full_model <- function(dimension, feature, df) {
+#   full_model_log <- file("full_model.txt", open="wt")
+#   sink(full_model_log, type="message")
   dimension.model = lmer(get(dimension) ~ get(feature) + ts +
                            (1+get(feature)|video_id),
                          REML=FALSE,
                          data = df,
                          control = lmerControl(calc.derivs = FALSE))
+#   sink(type="message")
+#   close(full_model_log)
   return (dimension.model)
 }
 
 
 # Null model function
 build_null_model <- function(dimension, feature, df) {
+#   null_model_log <- file("null_model.txt", open="wt")
+#   sink(full_model_log, type="message")
   dimension.null = lmer(get(dimension) ~ ts +
                           (1+get(feature)|video_id),
                         REML=FALSE,
                         data = df,
                         control = lmerControl(calc.derivs = FALSE))
+#   sink(type="message")
+#   close(null_model_log)
   return (dimension.null)
 }
 
@@ -67,7 +74,6 @@ select_data <- function(data, iteration_trials, dimension, electrode_site) {
   return (subset)
 }
 
-
 # Takes two arguments
 # p = participant code
 # d = path to main directory
@@ -86,7 +92,6 @@ analyse_participant_lme <- function(p, d) {
     print(paste('Using LME for selecting features extracted from participant', p, ', iteration', i, sep = " "))
     iteration_trials <- random_trials_indices %>%
       filter(iteration == i)
-    
     "Run once on each affective dimension:
     Affective dimensions are conceptually independent constructs. Therefore, one
     model should be built for each dimension. Consequently, feature selection must
@@ -97,15 +102,21 @@ analyse_participant_lme <- function(p, d) {
       for (e in electrodes) {
         subset_df <- select_data(participant_data, iteration_trials, dim, e)
         for (f in features) {
-#           print(paste('Analysing', f, 'at electrode site', e, sep = " "))
+          # Write log files with warning messages from LME4 package
+          log_file_name = paste('reports/logs/base/',p, '_', 'iteration', i, '_', dim, '_', e, '_', f, '.log', sep="")
+          participant_log <- file(log_file_name, open="wt")
+          sink(participant_log, type="message")
           # Build full model
           full_model <- try(build_full_model(dimension = dim, feature = f, df = subset_df))
           # Build null model
           null_model <- try(build_null_model(dimension = dim, feature = f, df = subset_df))
+          # Reset message sink and close log file
+          sink(type="message")
+          close(participant_log)
           # Check whether both models were built. In some cases, models cannot be built.
           # Some models cannot be built because 'Downdated VtV is not positive definite'".
           if ((class(null_model) == 'lmerMod')  & (class(full_model) == 'lmerMod')) {
-            # ... conduct a likelihood-ratio test
+            # Conduct likelihood-ratio test
             result <- anova(null_model, full_model)
             # assign participant code and feature name
             result$participant <- p
