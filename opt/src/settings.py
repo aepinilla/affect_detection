@@ -10,8 +10,7 @@ import os
 corrupted_participants = ['Y8ZJQ', 'J7BUL', 'JB584']
 
 # Directory path
-# d = os.path.dirname(os.getcwd())
-d = os.path.dirname(os.getcwd()) + '/affect_detection'
+d = os.path.dirname(os.getcwd())
 
 # Affective dimensions
 dimensions = 'negativity', 'positivity', 'net_predisposition'

@@ -273,7 +273,7 @@ def self_reports():
     self_reports_collection = []
     for p in participants_codes:
         # Read data
-        filename = d + '/data/subjective/self_reports/%s_self_report.csv' % (p)
+        filename = d + '/opt/data/subjective/self_reports/%s_self_report.csv' % (p)
         psychopy_data = pd.read_csv(filename)
         self_report = psychopy_data[['videoFile', 'likertNegativity.response', 'likertPositivity.response', 'likertArousal.response']]
         self_report = self_report.dropna().reset_index(drop=True)

@@ -11,8 +11,8 @@ from src.settings import participants_codes
 
 
 def main():
-    # Process data using multiprocessing library (10 participants are run in parallel)
-    with Pool(20) as pl:
+    # Process data using multiprocessing library (20 participants are run in parallel)
+    with Pool(1) as pl:
         pl.map(process_data, participants_codes)
 
     # Compare accuracy of classifiers built with features selected using each feature selection method.
