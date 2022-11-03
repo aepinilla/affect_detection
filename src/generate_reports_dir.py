@@ -10,7 +10,7 @@ def generate_reports_dir():
     Path("reports/feature_selection/lme/fa").mkdir(parents=True, exist_ok=True)
     Path("reports/feature_selection/lme/rpsd").mkdir(parents=True, exist_ok=True)
     Path("reports/feature_selection/rfecv").mkdir(parents=True, exist_ok=True)
-    Path("reports/feature_selection/figures").mkdir(parents=True, exist_ok=True)
+    Path("reports/figures").mkdir(parents=True, exist_ok=True)
     Path("reports/logs/base").mkdir(parents=True, exist_ok=True)
     Path("reports/logs/fa").mkdir(parents=True, exist_ok=True)
     Path("reports/logs/rpsd").mkdir(parents=True, exist_ok=True)
