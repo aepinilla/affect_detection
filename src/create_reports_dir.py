@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-def generate_reports_dir():
+def create_reports_dir():
     Path("reports/extracted_features/lme/base").mkdir(parents=True, exist_ok=True)
     Path("reports/extracted_features/lme/fa").mkdir(parents=True, exist_ok=True)
     Path("reports/extracted_features/lme/rpsd").mkdir(parents=True, exist_ok=True)

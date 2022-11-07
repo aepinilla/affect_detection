@@ -93,10 +93,8 @@ def get_lme_results(p):
 
 
 def get_rfecv_data(i, participant_features, p):
-    # print('RFECV iteration ' + str(i))
     # Which trials will be used for Recursive Feature Elimination?
     # These trials should be different from the trials that will be used for training the model
-    # Initialize nested dictionary
     nested_dict = lambda: defaultdict(nested_dict)
     # Load self reports
     all_self_reports = self_reports()
@@ -137,11 +135,10 @@ def get_rfecv_data(i, participant_features, p):
             column_name_no_nan = column_name_string.replace(".nan", "")
             trials_df.columns.values[n] = column_name_no_nan
 
-        # Rename last column as trial to merge with labels dataframe
+        # Rename last column to facilitate merge with labels dataframe
         trials_df.columns = [*trials_df.columns[:-1], 'trial']
         # Add labels
-        relevant_trial_subjective_data = participant_self_reports[
-            participant_self_reports['trial'].isin(relevant_trials[dim])]
+        relevant_trial_subjective_data = participant_self_reports[participant_self_reports['trial'].isin(relevant_trials[dim])]
         relevant_trial_subjective_data = relevant_trial_subjective_data[['trial', ('%s_type' % (dim))]]
         dimension_relevant_features_with_labels = pd.merge(trials_df, relevant_trial_subjective_data, on='trial')
         dimension_relevant_features_with_labels = dimension_relevant_features_with_labels.drop(['trial'],
@@ -326,9 +323,8 @@ def strings2means(row):
     return mean
 
 
-def subset_trials_ml(p, selected_features, random_state):
-    # Which trials will be used for training and testing the classification models?
-    # These trials should be different from the trials that were used for the RFECV analysis
+def subset_training_testing_trials(p, selected_features, random_state):
+    # Subset trials that will be used for training and testing the classification models
     nested_dict = lambda: defaultdict(nested_dict)
 
     all_self_reports = self_reports()
@@ -341,7 +337,7 @@ def subset_trials_ml(p, selected_features, random_state):
         dimension_trials = list(compress(trials, mask))
         ml_trials[dim] = dimension_trials
 
-    # Subset trials that will be used in the ML models
+    # Subset trials that will be used in the classification models
     relevant_participant_data = {}
     for dim in dimensions:
         relevant_data_for_ml = {key: value for (key, value) in selected_features[dim].items() if key in ml_trials[dim]}

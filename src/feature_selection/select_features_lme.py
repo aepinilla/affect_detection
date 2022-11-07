@@ -6,7 +6,7 @@ Institution: Quality and Usability Lab, TU Berlin & UTS Games Studio, University
 import pandas as pd
 from collections import defaultdict
 
-from src.helper import get_lme_results, subset_trials_ml
+from src.helper import get_lme_results, subset_training_testing_trials
 from src.settings import d, dimensions, trials
 
 
@@ -16,8 +16,8 @@ def select_features_lme(p, rs):
     participant_features = participant_data['objective']
     lme_results = get_lme_results(p)
     lme_results_iteration = lme_results.loc[lme_results['iteration'] == rs]
-    # Which features are relevant for the selected participant?
-    # Build dict with names of selected features, as per LME analysis
+    # Which features are relevant for this participant?
+    # Build dict with names of features selected with LME
     features_names_dimensions = {}
     for dim in dimensions:
         dimension_mask = lme_results_iteration['dimension'].str.contains(dim)
@@ -57,8 +57,8 @@ def select_features_lme(p, rs):
                     continue
 
     # Select trials that were not used in the LME analysis. This is necessary to prevent double-dipping.
-    participant_ml_data = subset_trials_ml(p, selected_features, rs)
-    return participant_ml_data
+    participant_lme_data = subset_training_testing_trials(p, selected_features, rs)
+    return participant_lme_data
 
 
 if __name__ == "__main__":

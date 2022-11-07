@@ -6,7 +6,7 @@ Institution: Quality and Usability Lab, TU Berlin & UTS Games Studio, University
 import pandas as pd
 from collections import defaultdict
 
-from src.helper import extract_selected_features_names, flatten_list, subset_trials_ml
+from src.helper import extract_selected_features_names, flatten_list, subset_training_testing_trials
 from src.settings import d, dimensions, trials
 
 
@@ -21,8 +21,8 @@ def select_features_rfecv(p, rs):
     participant_features = participant_data['objective']
     rfecv_results = pd.read_pickle(d + "/reports/feature_selection/rfecv/%s.pickle" % (p))
     rfecv_results_iteration = rfecv_results[rs]
-    # Which features are relevant for the selected participant?
-    # Build dict with names of selected features, as per RFECV analysis
+    # Which features are relevant for this participant?
+    # Build dict with names of features selected with RFECV
     features_names_dimensions = {}
     for dim in dimensions:
         dimension_results = rfecv_results_iteration[dim]
@@ -56,9 +56,9 @@ def select_features_rfecv(p, rs):
                 else:
                     continue
 
-    # Select trials that were not used in the RFECV analysis. This is necessary to prevent double-dipping.
-    participant_ml_data = subset_trials_ml(p, selected_features, rs)
-    return participant_ml_data
+    # Subset trials that were not used in the RFECV analysis. This is necessary to prevent double-dipping.
+    participant_refcv_data = subset_training_testing_trials(p, selected_features, rs)
+    return participant_refcv_data
 
 
 if __name__ == "__main__":

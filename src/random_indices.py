@@ -23,10 +23,10 @@ def random_indices(p):
     participant_self_reports = all_self_reports.loc[all_self_reports.participant == p]
 
     random_indices_collection = []
-    for rst in random_states_list:
-        indices = get_split_indices(participant_self_reports, rst)
+    for rs in random_states_list:
+        indices = get_split_indices(participant_self_reports, rs)
         indices_df = pd.DataFrame.from_dict(indices)
-        indices_df['iteration'] = rst
+        indices_df['iteration'] = rs
         random_indices_collection.append(indices_df)
 
     participant_random_indices = pd.concat(random_indices_collection)

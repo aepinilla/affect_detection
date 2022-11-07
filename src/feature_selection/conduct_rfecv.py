@@ -25,7 +25,6 @@ def conduct_rfecv(p):
         # Select features for each dimension
         rfecv_features = {}
         for dim in dimensions:
-            print('Selecting features for the ' + dim + ' dimension')
             dim_data = rfecv_data[dim]
             features = dim_data['features']
             labels = dim_data['labels']

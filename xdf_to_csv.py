@@ -114,14 +114,11 @@ def xdf_to_csv():
         emg_participant = pd.merge(emg_df, markers_df, how='outer', on='time_stamps')
         ecg_participant = pd.merge(ecg_df, markers_df, how='outer', on='time_stamps')
 
-        # Define participant code
-        participant = p
-
         # Export data
         print("Exporting data from participant %s to CSV format" % (p))
-        eeg_participant.to_csv(d + '/data/objective/csv/eeg/%s_eeg.csv' % (participant), index = False, header = True, sep = ',', encoding = 'utf-8')
-        emg_participant.to_csv(d + '/data/objective/csv/emg/%s_emg.csv' % (participant), index = False, header = True, sep = ',', encoding = 'utf-8')
-        ecg_participant.to_csv(d + '/data/objective/csv/ecg/%s_ecg.csv' % (participant), index = False, header = True, sep = ',', encoding = 'utf-8')
+        eeg_participant.to_csv(d + '/data/objective/csv/eeg/%s_eeg.csv' % (p), index = False, header = True, sep = ',', encoding = 'utf-8')
+        emg_participant.to_csv(d + '/data/objective/csv/emg/%s_emg.csv' % (p), index = False, header = True, sep = ',', encoding = 'utf-8')
+        ecg_participant.to_csv(d + '/data/objective/csv/ecg/%s_ecg.csv' % (p), index = False, header = True, sep = ',', encoding = 'utf-8')
 
 
 if __name__ == "__main__":

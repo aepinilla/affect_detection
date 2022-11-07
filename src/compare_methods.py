@@ -94,7 +94,7 @@ def compare_methods():
     g.set_yticklabels(['0%', '20%', '40%', '60%', '80%', '100%'])
     g.legend(title='Feature selection method')
     sns.move_legend(g, "lower left")
-    plt.savefig(d + '/reports/figures/anova_results.png', dpi=300)
+    plt.savefig(d + '/reports/figures/anova_results.jpg', dpi=300)
     plt.show()
 
 
