@@ -1,5 +1,12 @@
 # Affect detection
 
+A technique for detecting affective states from electroencephalography (EEG) signals is proposed. The technique was tested in an experiment in virtual reality. Data was analysed using Matlab, R and Python.
+
+Two variants of the technique are compared. The difference between both variants is the method used for feature selection. Those methods are Linear Mixed-Effects (LME) and Recursive Feature Elimination with Cross Validation (RFECV). Given that RFECV is a well-established feature selection method, it is useful as a benchmark to evaluate the performance of the LME approach proposed here. At the same time, given that LME models are able to capture variations across time, they can be used as a benchmark to evaluate the performance of RFECV when applied to time series analysis.
+
+Read the paper here: https://www.frontiersin.org/articles/10.3389/frvir.2022.964754/full
+
+
 ## Instructions
 1. Install R (https://cran.r-project.org/)
 2. Clone this repository:
