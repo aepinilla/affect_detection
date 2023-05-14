@@ -50,7 +50,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
 Pillow==9.1.0
 pingouin==0.5.2
-pip==22.1.2
+pip
 portalocker==2.3.0
 prompt-toolkit==3.0.29
 psutil==5.9.0

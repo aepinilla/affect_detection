@@ -1,3 +1,8 @@
+"""
+Author: Andres Pinilla Palacios
+Institution: Quality and Usability Lab, TU Berlin & UTS Games Studio, University of Technology Sydney
+"""
+
 participants = ["3I6EY","6HARB","AY9SI","DODE8","GLJO8","GNIE1","KNY2Z","MJC27","MRB58","NJL7V","PJGHY","QPLQF","RSC25","SDE14","SWLFB","SXZNO","TXNOY","UVBY3","VHY9N","YOO7M"];
 
 for p = participants

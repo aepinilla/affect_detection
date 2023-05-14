@@ -1,7 +1,8 @@
 # Affect detection
 
 ## Instructions
-1. Clone this repository:
+1. Install R (https://cran.r-project.org/)
+2. Clone this repository:
 ```
 git clone git@github.com:aepinilla/affect_detection.git
 ```

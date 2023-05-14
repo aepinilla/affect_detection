@@ -1,3 +1,8 @@
+"""
+Author: Andres Pinilla Palacios
+Institution: Quality and Usability Lab, TU Berlin & UTS Games Studio, University of Technology Sydney
+"""
+
 from src.build_classifiers import build_classifiers
 from src.analyse_features import analyse_features
 from src.extract_features import extract_features
