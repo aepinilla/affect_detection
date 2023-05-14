@@ -4,7 +4,7 @@ A technique for detecting affective states from electroencephalography (EEG) sig
 
 Two variants of the technique are compared. The difference between both variants is the method used for feature selection. Those methods are Linear Mixed-Effects (LME) and Recursive Feature Elimination with Cross Validation (RFECV). The former has been used previously for feature selection in supervised learning problems, but it is not suitable for analysis of time series. The latter is suitable for time series analysis, but it is not common to use it for feature selection.
 
-Therefore, RFECV is used as a benchmark to evaluate the performance of the LME approach proposed here. At the same time, LME is used as a benchmark to evaluate the performance of RFECV when applied to features extracted from time series. Both feature selection methods lead to classification models with similar accuracy, precision and recall metrics. However, RFECV could be more efficient as it seems to require less computing power. 
+Therefore, RFECV is used as a benchmark to evaluate the performance of the LME approach proposed here. At the same time, LME is used as a benchmark to evaluate the performance of RFECV when applied to features extracted from time series. Both feature selection methods lead to classification models with similar accuracy, precision and recall metrics. However, RFECV could be more suitable for real-time affect detection, as it seems to require less computing power. 
 
 Read the paper here: https://www.frontiersin.org/articles/10.3389/frvir.2022.964754/full
 
