@@ -8,7 +8,7 @@ git clone git@github.com:aepinilla/affect_detection.git
 ```
 2. Download the 'data.zip' file from the OSF repository of the study: https://osf.io/7v9kt/
 3. Unzip data.zip and place it at the root of the folder you just cloned.
-6. Using the terminal, go to the root of the 'affect_detection' folder and run the following command:
+6. Using the terminal, go to the root of the 'affect_detection' folder and run:
 ```
 python main.py
 ```

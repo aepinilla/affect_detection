@@ -39,7 +39,7 @@ def extract_features(p):
     all_trials = {}
     # Extract features for each video trial
     for t in trials:
-        # print("processing video %s..." % (t))
+        print("processing video %s for participant %s..." % (t, p))
         eeg_data_video = eeg_data.iloc[epochs_start_mark.index[t]:epochs_start_mark.index[t]+len_epoch,:]
         eeg_data_video_dict = {channel: eeg_data_video[channel] for channel in electrode_sites}
         # Spectral envelope
