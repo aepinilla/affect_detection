@@ -13,9 +13,9 @@ Read the paper here: https://www.frontiersin.org/articles/10.3389/frvir.2022.964
 ```
 git clone git@github.com:aepinilla/affect_detection.git
 ```
-2. Download the 'data.zip' file from the OSF repository of the study: https://osf.io/7v9kt/
-3. Unzip data.zip and place it at the root of the folder you just cloned.
-4. Using the terminal, go to the root of the 'affect_detection' folder and run:
+3. Download the 'data.zip' file from the OSF repository of the study: https://osf.io/7v9kt/
+4. Unzip data.zip and place it at the root of the folder you just cloned.
+5. Using the terminal, go to the root of the 'affect_detection' folder and run:
 ```
 python main.py
 ```
