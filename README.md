@@ -24,7 +24,7 @@ python main.py
 The 'data' folder contains data that has been already preprocessed. To replicate the preprocessing steps, follow these instructions:
 1. Install Matlab.
 2. Install EEGLAB following these instructions: https://eeglab.org/tutorials/01_Install/Install.html
-4. Transform XDF files to CSV for faster processing:
+4. Transform XDF files to CSV:
 ```
 python xdf_to_csv.py
 ```
